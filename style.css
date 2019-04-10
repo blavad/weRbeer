@@ -1,0 +1,62 @@
+:root {
+    --bg-color: rgb(201, 150, 9);
+    --text-color: black;
+    --mousse: url("img/header_back.png");
+    --bulle: url("img/bg_milieu.png");
+    --text-button-color: rgb(219, 172, 18);
+    --height-header: 70px;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    background-image: var(--bulle);
+}
+
+header {
+    height: var(--height-header);
+    overflow: hidden;
+    margin: 30px, 30px, 30px, 30px;
+    background-image: var(--mousse);
+}
+
+.button {
+    height: 28px;
+    border: 1px;
+    color: var(--text-button-color);
+    background-image: var(--mousse);
+}
+
+.button:hover {
+    color: rgb(99, 63, 9);
+    cursor: pointer;
+}
+
+.header_leftPart {
+    float: left;
+    width: auto;
+    margin-left: 20px;
+    margin-top: calc(var(--height-header) / 5);
+    margin-bottom: calc(var(--height-header) / 5);
+    border: 2px solid rgba(19, 8, 8, 0.527);
+}
+
+.header_centerPart {
+    width: auto;
+    margin-left: 25%;
+    margin-right: 30%;
+    margin-top: calc(var(--height-header) / 4);
+    margin-bottom: calc(var(--height-header) / 4);
+}
+
+.header_rightPart {
+    float: right;
+    width: auto;
+    margin-right: 20px;
+    margin-top: calc(var(--height-header) / 4);
+    margin-bottom: calc(var(--height-header) / 4);
+}
+
+.max-dim {
+    width: 100%;
+}
