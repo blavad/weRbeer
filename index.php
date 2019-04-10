@@ -1,8 +1,14 @@
+<?php
+session_start();
+require_once('class/utilisateur.class.php');
+$_SESSION['util'] = new Utilisateur(5,"Davdav","img/prof.png");
+?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
-  <title>Connexion</title>
+  <title>Profil</title>
   <meta http-equiv="content-type" content="text/html;charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <link rel="stylesheet" type="text/css" href="style.css" media="all" />
@@ -14,7 +20,7 @@
 
 <body>
   <?php
-  include("header/header.html");
+  include("header/header.php");
   ?>
   <div class="main-content">
     <h1> Site bière</h1>
