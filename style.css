@@ -60,3 +60,9 @@ header {
 .max-dim {
     width: 100%;
 }
+
+label{
+	display: block;
+	width: 180px;
+	float: left;
+}
