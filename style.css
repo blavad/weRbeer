@@ -14,9 +14,11 @@ body {
 }
 
 header {
-    height: var(--height-header);
     overflow: hidden;
-    margin: 30px, 30px, 30px, 30px;
+    /* position: fixed; */
+    width:100%;
+    height: var(--height-header);
+    top:0;
     background-image: var(--mousse);
 }
 
@@ -57,12 +59,12 @@ header {
     margin-bottom: calc(var(--height-header) / 4);
 }
 
-.max-dim {
+.max-width {
     width: 100%;
 }
 
 label{
-	display: block;
-	width: 180px;
+    width: 180px;
 	float: left;
+	display: block;
 }

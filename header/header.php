@@ -1,13 +1,3 @@
-<?php
-/* require_once('class/utilisateur.class.php'); // Déclaration impérativement avant session_start()
-session_start();
-
-if (isset($_SESSION['util']))
-{
-    echo 'Bonjour ' . $_SESSION['util']->getLogin();
-}
- */?> 
-
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -35,7 +25,6 @@ if (isset($_SESSION['util']))
     <div class="header_leftPart">
         <?php
         // On affiche la photo de profile
-        // print_r($_SESSION['util']);
         if (isset($_SESSION['util'])) { 
             $_SESSION['util']->afficherPhoto(40,40);
         }
@@ -46,7 +35,7 @@ if (isset($_SESSION['util']))
     </div>
     <div class="header_centerPart">
         <form>
-            <input class="max-dim" type="text" id="recherche" />
+            <input class="max-width" type="text" id="recherche" />
         </form>
     </div>
 </header>
