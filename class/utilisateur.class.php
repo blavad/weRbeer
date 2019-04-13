@@ -18,7 +18,7 @@ class Utilisateur
         return $this->pseudo;
     }
 
-    public function getIdentifiant()
+    public function getId()
     {
         return $this->identifiant;
     }
@@ -28,18 +28,33 @@ class Utilisateur
     }
 
     public function afficherInfo()
-    { }
+    {
+        echo "<div>
+        <h2> Profil de " . $this->getPseudo() . "</h2>
+        </div>
+        ";
+    }
 
     public function afficherListeAmis()
-    { }
+    {
+        echo "<div>
+        <h2> Amis </h2>
+        </div>
+        ";
+    }
 
     public function afficherCave()
-    { }
+    {
+        echo "<div>
+        <h2> Cave</h2>
+        </div>
+        ";
+    }
 
     public function afficherPhoto($width, $height)
     {
-        echo    
-            "<a href ='" . $this->getURL_Photo() . "'>
+        echo
+            "<a href ='profil.php?id=" . $this->getId() . "'>
                 <img src='" . $this->getURL_Photo() . "'  alt='Photo Profile' width='" . $width . "px' height='" . $height . "px'>
             </a>";
     }

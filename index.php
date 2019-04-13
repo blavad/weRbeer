@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once('class/utilisateur.class.php');
-$_SESSION['util'] = new Utilisateur(5,"Davdav","img/prof.png");
+$_SESSION['util'] = new Utilisateur("5","Davdav","img/prof.png");
 ?>
 
 <!DOCTYPE html>
