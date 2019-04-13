@@ -1,12 +1,12 @@
 <?php
-require_once('utilisateur.class.php'); // Déclaration impérativement avant session_start()
+/* require_once('class/utilisateur.class.php'); // Déclaration impérativement avant session_start()
 session_start();
 
 if (isset($_SESSION['util']))
 {
     echo 'Bonjour ' . $_SESSION['util']->getLogin();
 }
-?>
+ */?> 
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
