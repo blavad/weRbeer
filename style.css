@@ -1,11 +1,12 @@
 :root {
     --bg-color: rgb(201, 150, 9);
     --text-color: black;
-    --mousse: url("img/header_back.png");
-    --bulle: url("img/bg_milieu.png");
     --text-button-color: rgb(219, 172, 18);
     --height-header: 70px;
+    --mousse: url("img/header_back.png");
+    --bulle: url("img/bg_milieu.png");
 }
+
 
 body {
     margin: 0px;
@@ -15,52 +16,60 @@ body {
 
 header {
     overflow: hidden;
-    /* position: fixed; */
+    position: fixed;
     width:100%;
     height: var(--height-header);
     top:0;
     background-image: var(--mousse);
 }
 
-.button {
+.main-content {
+    padding-top: var(--height-header);
+    margin: 2%;
+}
+
+.button-deconnect {
     height: 28px;
     border: 1px;
     color: var(--text-button-color);
     background-image: var(--mousse);
 }
 
-.button:hover {
+.button-deconnect:hover {
     color: rgb(99, 63, 9);
     cursor: pointer;
 }
 
-.header_leftPart {
-    float: left;
-    width: auto;
-    margin-left: 20px;
-    margin-top: calc(var(--height-header) / 5);
-    margin-bottom: calc(var(--height-header) / 5);
-    border: 2px solid rgba(19, 8, 8, 0.527);
+.header-block {
+    width : auto;
+    margin-top: calc(var(--height-header) / 4);
+    margin-bottom: calc(var(--height-header) / 4);
 }
 
-.header_centerPart {
-    width: auto;
+.leftSide {
+    float: left;
+    margin-left: 20px;
+}
+
+.rightSide {
+    float: right;
+    margin-right: 20px;
+}
+
+.centerPart {
     margin-left: 25%;
     margin-right: 30%;
-    margin-top: calc(var(--height-header) / 4);
-    margin-bottom: calc(var(--height-header) / 4);
-}
-
-.header_rightPart {
-    float: right;
-    width: auto;
-    margin-right: 20px;
-    margin-top: calc(var(--height-header) / 4);
-    margin-bottom: calc(var(--height-header) / 4);
 }
 
 .max-width {
     width: 100%;
+}
+
+.fen-apercu {
+    width: 40%;
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 4px solid black;
 }
 
 label{
