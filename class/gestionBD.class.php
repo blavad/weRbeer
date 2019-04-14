@@ -1,5 +1,8 @@
 <?php
 
+require_once('class/utilisateur.class.php');
+require_once('class/biere.class.php');
+
 class GestionBD
 {
     static protected $bd;

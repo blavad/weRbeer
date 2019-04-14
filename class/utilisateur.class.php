@@ -29,10 +29,11 @@ class Utilisateur
 
     public function afficherInfo()
     {
-        echo "<div>
-        <h2> Profil de " . $this->getPseudo() . "</h2>
-        </div>
-        ";
+        echo
+            "<div >
+                <div >" . $this->afficherPhoto(200, 200) . "</div>
+                <h2> " . $this->getPseudo() . "</h2>
+            </div>";
     }
 
     public function afficherListeAmis()

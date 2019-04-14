@@ -24,19 +24,28 @@ session_start();
     include("header/header.php");
     ?>
 
-    <?php 
-    $prof_u =NULL;
-    if ($_GET["id"] == $_SESSION["util"]->getId()){
-        $prof_u = $_SESSION["util"];
-    }
-    else {
-        $prof_u = new Utilisateur($_GET["id"],"Marion","img/prof.png");
-    }
-    
-    $prof_u -> afficherInfo();
-    $prof_u -> afficherListeAmis();
-    $prof_u -> afficherCave();
+    <div class='main-content'>
+        <?php
+        $prof_u = NULL;
+        if ($_GET["id"] == $_SESSION["util"]->getId()) {
+            $prof_u = $_SESSION["util"];
+        } else {
+            $prof_u = new Utilisateur($_GET["id"], "Marion", "img/prof.png");
+            // $prof_u = $gbd -> getUtilisateur($_GET["id"]);        
+        }
 
-    ?>
+        $prof_u->afficherInfo();
+        ?>
 
+        <a href=<?php echo "'bieres.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu leftSide'>
+            <h3 style=" color: black;
+                "> Cave à bière </h3>
+        </a>
+
+        <a href=<?php echo "'amis.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu rightSide'>
+            <h3 style=" color: black;
+                "> Relations </h3>
+        </a>
+
+    </div>
 </body>
