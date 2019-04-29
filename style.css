@@ -1,6 +1,6 @@
 :root {
     --bg-color: rgb(201, 150, 9);
-    --text-color: black;
+    --text-color: rgb(238, 230, 230);
     --text-button-color: rgb(219, 172, 18);
     --height-header: 70px;
     --mousse: url("img/header_back.png");

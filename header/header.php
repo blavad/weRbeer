@@ -6,9 +6,8 @@
 
 <script>
     $(document).ready(function() {
-        $("button").click(function() {
+        $(".button-deconnect").click(function() {
             alert("Vous allez être déconnecté.");
-            // Appel page d'accueil
         });
     });
 </script>
@@ -31,7 +30,7 @@
         ?>
     </div>
     <div class="header-block rightSide">
-        <button class="button-deconnect"> <span class=" glyphicon glyphicon-log-out"> Deconnect </span> </button>
+        <a class="button-deconnect" href="index.php?deconnect=true"> <span class=" glyphicon glyphicon-log-out"> Deconnect </span> </a>
     </div>
     <div class="header-block centerPart">
         <form>
