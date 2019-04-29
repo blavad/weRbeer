@@ -53,6 +53,9 @@ else {
             <h3 style=" color: black;
                 "> Relations </h3>
         </a>
+        <?php
+			include("navbar/navbar.php");
+		?>
 
     </div>
 </body>
