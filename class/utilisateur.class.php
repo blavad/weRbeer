@@ -4,13 +4,18 @@ class Utilisateur
 {
     protected $identifiant;
     protected $pseudo;
+    protected $dateNaissance;
+    protected $sexe;
     protected $url_photo;
 
-    public function __construct($id, $pseudo, $url_photo)
+    public function __construct($id, $pseudo, $dateNaissance, $sexe, $url_photo)
     {
         $this->identifiant = $id;
         $this->pseudo = $pseudo;
+        $this->sexe = $sexe;
+        $this->dateNaissance = $dateNaissance;
         $this->url_photo = $url_photo;
+
     }
 
     public function getPseudo()
@@ -24,7 +29,7 @@ class Utilisateur
     }
     public function getURL_Photo()
     {
-        return $this->url_photo;
+        return "photoU/".$this->url_photo;
     }
 
     public function afficherInfo()
@@ -33,6 +38,7 @@ class Utilisateur
             "<div >
                 <div >" . $this->afficherPhoto(200, 200) . "</div>
                 <h2> " . $this->getPseudo() . "</h2>
+                <h2> ".$this->getId()."</h2>
             </div>";
     }
 
@@ -56,7 +62,7 @@ class Utilisateur
     {
         echo
             "<a href ='profil.php?id=" . $this->getId() . "'>
-                <img src='" . $this->getURL_Photo() . "'  alt='Photo Profile' width='" . $width . "px' height='" . $height . "px'>
+                <img src='" . $this->getURL_Photo() . "'  alt='".$this->getURL_Photo()."' width='" . $width . "px' height='" . $height . "px'>
             </a>";
     }
 }

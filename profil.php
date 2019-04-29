@@ -2,13 +2,6 @@
 require_once('class/utilisateur.class.php');
 require_once('class/gestionBD.class.php');
 session_start();
-$bd = new GestionBD();
-if ($bd->connexion($_POST["identifiant"], $_POST["mdp"])) {
-    $_SESSION['util'] = $bd -> getUtilisateur($_POST["identifiant"]);
-}
-else {
-    
-}
 ?>
 
 

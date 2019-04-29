@@ -21,13 +21,15 @@ class GestionBD
 
     function connexion($pseudo, $mdp)
     {
-        $req = $this->bd->prepare("SELECT mdp FROM Utilisateur WHERE pseudo = ?;");
+        $req = $this->bd->prepare("SELECT idU, mdp FROM Utilisateur WHERE pseudo = ?;");
         $req->execute(array($pseudo));
 
         $req_mdp = $req->fetch();
         $req->closeCursor();
 
-        return $req_mdp['mdp'] == $mdp;
+        $res = array($req_mdp['idU'],$req_mdp['mdp'] == $mdp);
+
+        return $res;
     }
 
     function getUtilisateur($id)
@@ -37,7 +39,7 @@ class GestionBD
 
         $req_util = $req->fetch();
 
-        $util = new Utilisateur($req_util['idU'], $req_util['pseudo'], $req_util['url_photo']);
+        $util = new Utilisateur($req_util['idU'], $req_util['pseudo'],$req_util['sexe'],$req_util['dateNaissance'], $req_util['urlPhoto']);
 
         $req->closeCursor();
 
