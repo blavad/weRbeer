@@ -8,7 +8,8 @@ class Utilisateur
     protected $sexe;
     protected $url_photo;
 
-    public function __construct($id, $pseudo, $dateNaissance, $sexe, $url_photo)
+    
+    public function __construct($id, $pseudo, $dateNaissance="01/01/2000", $sexe="Unknown", $url_photo="photo_marion.png")
     {
         $this->identifiant = $id;
         $this->pseudo = $pseudo;
@@ -32,7 +33,7 @@ class Utilisateur
         return "photoU/".$this->url_photo;
     }
 
-    public function afficherInfo()
+    public function afficherInfo($total = true)
     {
         echo
             "<div >

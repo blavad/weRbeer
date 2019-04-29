@@ -27,9 +27,17 @@ class GestionBD
         $req_mdp = $req->fetch();
         $req->closeCursor();
 
-        $res = array($req_mdp['idU'],$req_mdp['mdp'] == $mdp);
+        $res = array($req_mdp['idU'], $req_mdp['mdp'] == $mdp);
 
         return $res;
+    }
+
+    function isAllowed($id_u, $id_ami)
+    {
+        $req = $this->bd->prepare("SELECT * FROM relation WHERE idU1 = ? AND idU2 = ?;");
+        $req->execute(array($id_u, $id_ami));
+
+        return $req->fetch();
     }
 
     function getUtilisateur($id)
@@ -39,7 +47,7 @@ class GestionBD
 
         $req_util = $req->fetch();
 
-        $util = new Utilisateur($req_util['idU'], $req_util['pseudo'],$req_util['sexe'],$req_util['dateNaissance'], $req_util['urlPhoto']);
+        $util = new Utilisateur($req_util['idU'], $req_util['pseudo'], $req_util['sexe'], $req_util['dateNaissance'], $req_util['urlPhoto']);
 
         $req->closeCursor();
 
