@@ -1,6 +1,14 @@
 <?php
 require_once('class/utilisateur.class.php');
+require_once('class/gestionBD.class.php');
 session_start();
+$bd = new GestionBD();
+if ($bd->connexion($_POST["identifiant"], $_POST["mdp"])) {
+    $_SESSION['util'] = $bd -> getUtilisateur($_POST["identifiant"]);
+}
+else {
+    
+}
 ?>
 
 
@@ -30,8 +38,7 @@ session_start();
         if ($_GET["id"] == $_SESSION["util"]->getId()) {
             $prof_u = $_SESSION["util"];
         } else {
-            $prof_u = new Utilisateur($_GET["id"], "Marion", "img/prof.png");
-            // $prof_u = $gbd -> getUtilisateur($_GET["id"]);        
+            $prof_u = $bd->getUtilisateur($_GET["id"]);
         }
 
         $prof_u->afficherInfo();

@@ -15,64 +15,63 @@
 	</header>
 
 	<div class="main-content">
-		<form action="GET">
-
-			<table>
-				<tr>
-					<td>
+		<table>
+			<tr>
+				<td>
+					<form method="post" action="profil.php">
 						<fieldset>
 							<legend> Connexion </legend>
+							<label for="identifiant "> Identifiant : </label><input
+								placeholder="Saisissez votre identifiant" id="identifiant" name="identifiant"
+								type="text" size="30" required/>
+							<br />
+							<label for="mdp "> Mot de passe : </label><input placeholder="Saisissez votre mot de passe"
+								id="mdp" name="mdp" type="text" size="30" required/>
+						</fieldset>
+						<input type="submit" value="Se connecter" />
+						<input type="reset" value="Effacer " />
+					</form>
+
+				</td>
+				<!-- <td>
+					<form method="post" action="index.php">
+						<fieldset>
+							<legend> Inscription </legend>
+							<label for="name "> Nom : </label><input placeholder="Saisissez votre nom" id="name"
+								name="name" type="text" size="30" />
+							<br />
+							<label for="name "> Prénom : </label> <input placeholder="Saisissez votre prénom"
+								id="surname" name="surname" type="text" size="30" />
+							<br />
+							<label for="birth "> Date de naissance : </label> <input placeholder="Jour" id="jour"
+								name="jour" type="text" size="4" /> <input placeholder="Mois" id="mois" name="mois"
+								type="text" size="4" />
+							<input placeholder="Annee" id="annee" name="annee" type="text" size="7" />
+							<br />
 							<label for="identifiant "> Identifiant : </label><input
 								placeholder="Saisissez votre identifiant" id="identifiant" name="identifiant"
 								type="text" size="30" />
 							<br />
 							<label for="mdp "> Mot de passe : </label><input placeholder="Saisissez votre mot de passe"
 								id="mdp" name="mdp" type="text" size="30" />
+							<br />
+							<label for="sexe ">Sexe : </label>
+							<select name="sexe" id="sexe ">
+								<option value="femme">Femme</option>
+								<option value="homme">Homme</option>
+							</select><br />
+
+							<label for="photo "> Photo :</label> <input type="file" name="maPhoto" id="photo" />
 						</fieldset>
 
-						<input type="submit" />
+						<input type="submit" value="S'inscrire" />
 
 						<input type="reset" value="Effacer " />
 
-		</form>
+					</form>
 
-		</td>
-		<td>
-			<fieldset>
-				<legend> Inscription </legend>
-				<label for="name "> Nom : </label><input placeholder="Saisissez votre nom" id="name" name="name"
-					type="text" size="30" />
-				<br />
-				<label for="name "> Prénom : </label> <input placeholder="Saisissez votre prénom" id="surname"
-					name="surname" type="text" size="30" />
-				<br />
-				<label for="birth "> Date de naissance : </label> <input placeholder="Jour" id="jour" name="jour"
-					type="text" size="4" /> <input placeholder="Mois" id="mois" name="mois" type="text" size="4" />
-				<input placeholder="Annee" id="annee" name="annee" type="text" size="7" />
-				<br />
-				<label for="identifiant "> Identifiant : </label><input placeholder="Saisissez votre identifiant"
-					id="identifiant" name="identifiant" type="text" size="30" />
-				<br />
-				<label for="mdp "> Mot de passe : </label><input placeholder="Saisissez votre mot de passe" id="mdp"
-					name="mdp" type="text" size="30" />
-				<br />
-				<label for="sexe ">Sexe : </label>
-				<select name="sexe" id="sexe ">
-					<option value="femme">Femme</option>
-					<option value="homme">Homme</option>
-				</select><br />
-
-				<label for="photo "> Photo :</label> <input type="file" name="maPhoto" id="photo" />
-			</fieldset>
-
-			<input type="submit" value="S'inscrire" />
-
-			<input type="reset" value="Effacer " />
-
-			</form>
-
-		</td>
-		</tr>
+				</td> -->
+			</tr>
 		</table>
 	</div>
 
