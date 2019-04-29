@@ -25,6 +25,9 @@ require_once('class/gestionBD.class.php');
         <h1> Site bière</h1>
         
     </div>
+    <?php 
+    include("navbar/navbar.php");
+    ?>
 </body>
 
 </html>
