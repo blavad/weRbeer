@@ -28,27 +28,33 @@ session_start();
     <div class='main-content'>
         <?php
         $prof_u = NULL;
+        $bd = new GestionBD();
         if ($_GET["id"] == $_SESSION["util"]->getId()) {
             $prof_u = $_SESSION["util"];
         } else {
             $prof_u = $bd->getUtilisateur($_GET["id"]);
         }
+        if ($bd->isAllowed($_SESSION["util"]->getId(), $prof_u->getId())) {
+            $prof_u->afficherInfo(true); ?>
+            <a href=<?php echo "'bieres.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu leftSide'>
+                <h3 style="color: black;
+                    "> Cave à bière </h3>
+            </a>
 
-        $prof_u->afficherInfo();
-        ?>
-
-        <a href=<?php echo "'bieres.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu leftSide'>
-            <h3 style=" color: black;
-                "> Cave à bière </h3>
-        </a>
-
-        <a href=<?php echo "'amis.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu rightSide'>
-            <h3 style=" color: black;
-                "> Relations </h3>
-        </a>
+            <a href=<?php echo "'amis.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu rightSide'>
+                <h3 style="color: black;
+                    "> Relations </h3>
+            </a>
         <?php
-			include("navbar/navbar.php");
-		?>
+    } else {
+        $prof_u->afficherInfo(false);
+    }
+    ?>
+
+
+        <?php
+        include("navbar/navbar.php");
+        ?>
 
     </div>
 </body>

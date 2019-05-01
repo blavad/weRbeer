@@ -12,7 +12,6 @@ if (isset($_SESSION['util'])) {
   if (!isset($_POST['identifiant']) | !isset($_POST['mdp'])) {
     include("connexion.html");
   } else {
-    
     $bd = new GestionBD();
     $connect_info = $bd->connexion($_POST["identifiant"], $_POST["mdp"]);
     if ($connect_info[1]) {

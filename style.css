@@ -27,6 +27,7 @@ header {
 
 .main-content {
     padding-top: var(--height-header);
+    padding-bottom: var(--height-header);
     margin: 2%;
 }
 
