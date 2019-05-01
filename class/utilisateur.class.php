@@ -28,6 +28,7 @@ class Utilisateur
     {
         return $this->identifiant;
     }
+    
     public function getURL_Photo()
     {
         return "photoU/".$this->url_photo;

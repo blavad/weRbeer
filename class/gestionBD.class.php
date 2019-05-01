@@ -37,7 +37,7 @@ class GestionBD
         $req = $this->bd->prepare("SELECT * FROM relation WHERE idU1 = ? AND idU2 = ?;");
         $req->execute(array($id_u, $id_ami));
 
-        return $req->fetch();
+        return $req->fetch() || $id_u==$id_ami;
     }
 
     function getUtilisateur($id)
