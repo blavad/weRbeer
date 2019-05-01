@@ -1,12 +1,14 @@
 :root {
     --bg-color: rgb(201, 150, 9);
-    --text-color: rgb(238, 230, 230);
+    --text-color: black;
     --text-button-color: rgb(219, 172, 18);
     --height-header: 70px;
     --mousse: url("img/header_back.png");
     --bulle: url("img/bg_milieu.png");
 }
-
+*{
+    font-family:"monospace";
+ }
 
 body {
     margin: 0px;
@@ -76,4 +78,83 @@ label{
     width: 180px;
 	float: left;
 	display: block;
+}
+
+table {
+border: medium solid #363636;
+/*margin-top: calc(var(--height-header) / 2);
+margin-bottom: calc(var(--height-header) / 2);
+margin-left:10%;
+margin-right:10%;
+width:70%;
+height:50%;*/
+margin:auto;
+}
+td {
+width: 50%;
+font-family:"monospace";
+font-weight:bold;
+color:#363636;
+padding-left:2%;
+padding-right:0%;
+}
+
+fieldset {
+padding-top: 5%;
+padding-bottom: 5%;
+margin-bottom: 3%;
+border: thin solid #363636;
+background-color: rgba(219, 221, 221, 0.342);
+}
+
+#inscription{
+    width: 40%;
+    padding-left:0%;
+    padding-right:2%;
+}
+
+#inscription fieldset {
+    padding-top:49%;
+    padding-bottom:43%; 
+}
+
+#co{
+font-family:"monospace";
+font-size: 200%;
+color:#363636;
+/*font-variant: small-caps;*/
+text-align: center;
+text-decoration: overline,underline;
+text-shadow: -1px -1px #eee, 1px 1px #888, -2px 0 3px #000;
+}
+
+label{
+width:55%;
+}
+
+input{
+    font-size: 13px;
+    width:82%;
+}
+
+.bouton {
+    width:40%;
+    margin-left:8%;
+    margin-bottom: 3%;
+    border:none;
+	padding:6px 0 6px 0;
+	border-radius:75%;
+	border-bottom:7px solid #003764;
+	font:bold 13px Monospace;
+	color:#363636;
+	background:#fff;
+	box-shadow:2px 2px 3px #363636;
+	border-top:2px solid #003764;
+}
+
+.bouton:hover{
+    color:#fff;
+    background:#363636;
+    border-bottom:7px solid #1893f8;
+    border-top:2px solid #1893f8;
 }
