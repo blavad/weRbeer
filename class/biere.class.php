@@ -2,6 +2,7 @@
 
 class Biere
 {
+    protected $id;
     protected $nom;
     protected $degre;
     protected $fabriquant;

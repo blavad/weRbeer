@@ -6,9 +6,10 @@
     --mousse: url("img/header_back.png");
     --bulle: url("img/bg_milieu.png");
 }
-*{
-    font-family:"monospace";
- }
+
+* {
+    font-family: "monospace";
+}
 
 body {
     margin: 0px;
@@ -19,9 +20,9 @@ body {
 header {
     overflow: hidden;
     position: fixed;
-    width:100%;
+    width: 100%;
     height: var(--height-header);
-    top:0;
+    top: 0;
     background-image: var(--mousse);
 }
 
@@ -31,40 +32,70 @@ header {
     margin: 2%;
 }
 
-
 div#blockBiere {
-	width: 800px;
-	height: 400px;
+    width: 800px;
+    height: 400px;
 }
 
 div#photoBiere {
-	float: left;
-	width: 100px;
-	height: 400px;
+    float: left;
+    width: 100px;
+    height: 400px;
 }
 
 div#titreBiere {
-	float: right;
-	width: 600px;
-	height: 100px;
-	font-size: 50px;
-	color: black;
-	font-weight: bold;
-	text-decoration: underline overline;
+    float: right;
+    width: 600px;
+    height: 100px;
+    font-size: 50px;
+    color: black;
+    font-weight: bold;
+    text-decoration: underline overline;
 }
 
 div#infoBiere {
-	float: right;
-	width: 600px;
-	height: 300px;
-	font-size: 25px;
-	color: black;
+    float: right;
+    width: 600px;
+    height: 300px;
+    font-size: 25px;
+    color: black;
 }
 
 div#blockNote {
-	width: 300px;
-	height: 200px;
-	border-color: black;
+    width: 300px;
+    height: 200px;
+    border-color: black;
+}
+
+.blocApercu {
+    background: rgba(255, 243, 137, 0.8);
+    border: #000 solid 3px;
+    margin: 20px 10px 20px 10px;
+    padding: 20px 20px 20px 20px;
+    height: 120px;
+}
+
+.blocImage {
+    float :left;
+
+}
+
+.blocDescription {
+    float: right;
+    margin-right: 50px; 
+    width: 75%;
+}
+
+#blocCommentaire {
+    background: rgba(216, 215, 209, 0.8);
+    border: rgb(255, 0, 0) solid 1px;
+    margin-top: 10px; 
+    padding: 5px 10px; 
+}
+
+#descriptionTitle{
+    font-size: 20px;
+    color: #0d72c4;
 }
 
 .button-deconnect {
@@ -80,7 +111,7 @@ div#blockNote {
 }
 
 .header-block {
-    width : auto;
+    width: auto;
     margin-top: calc(var(--height-header) / 4);
     margin-bottom: calc(var(--height-header) / 4);
 }
@@ -111,87 +142,88 @@ div#blockNote {
     border: 4px solid black;
 }
 
-label{
+label {
     width: 180px;
-	float: left;
-	display: block;
+    float: left;
+    display: block;
 }
 
 table {
-border: medium solid #363636;
-/*margin-top: calc(var(--height-header) / 2);
+    border: medium solid #363636;
+    /*margin-top: calc(var(--height-header) / 2);
 margin-bottom: calc(var(--height-header) / 2);
 margin-left:10%;
 margin-right:10%;
 width:70%;
 height:50%;*/
-margin:auto;
+    margin: auto;
 }
+
 td {
-width: 50%;
-font-family:"monospace";
-font-weight:bold;
-color:#363636;
-padding-left:2%;
-padding-right:0%;
+    width: 50%;
+    font-family: "monospace";
+    font-weight: bold;
+    color: #363636;
+    padding-left: 2%;
+    padding-right: 0%;
 }
 
 fieldset {
-padding-top: 5%;
-padding-bottom: 5%;
-margin-bottom: 3%;
-border: thin solid #363636;
-background-color: rgba(219, 221, 221, 0.342);
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-bottom: 3%;
+    border: thin solid #363636;
+    background-color: rgba(219, 221, 221, 0.342);
 }
 
-#inscription{
+#inscription {
     width: 40%;
-    padding-left:0%;
-    padding-right:2%;
+    padding-left: 0%;
+    padding-right: 2%;
 }
 
 #inscription fieldset {
-    padding-top:50%;
-    padding-bottom:43%; 
+    padding-top: 50%;
+    padding-bottom: 43%;
 }
 
-#co{
-font-family:"monospace";
-font-size: 200%;
-color:#363636;
-/*font-variant: small-caps;*/
-text-align: center;
-text-decoration: overline,underline;
-text-shadow: -1px -1px #eee, 1px 1px #888, -2px 0 3px #000;
+#co {
+    font-family: "monospace";
+    font-size: 200%;
+    color: #363636;
+    /*font-variant: small-caps;*/
+    text-align: center;
+    text-decoration: overline, underline;
+    text-shadow: -1px -1px #eee, 1px 1px #888, -2px 0 3px #000;
 }
 
-label{
-width:55%;
+label {
+    width: 55%;
 }
 
-input{
+input {
     font-size: 13px;
-    width:82%;
+    width: 82%;
 }
 
 .bouton {
-    width:40%;
-    margin-left:8%;
+    width: 40%;
+    margin-left: 8%;
     margin-bottom: 3%;
-    border:none;
-	padding:6px 0 6px 0;
-	border-radius:75%;
-	border-bottom:7px solid #003764;
-	font:bold 13px Monospace;
-	color:#363636;
-	background:#fff;
-	box-shadow:2px 2px 3px #363636;
-	border-top:2px solid #003764;
+    border: none;
+    padding: 6px 0 6px 0;
+    border-radius: 75%;
+    border-bottom: 7px solid #003764;
+    font: bold 13px Monospace;
+    color: #363636;
+    background: #fff;
+    box-shadow: 2px 2px 3px #363636;
+    border-top: 2px solid #003764;
 }
 
-.bouton:hover{
-    color:#fff;
-    background:#363636;
-    border-bottom:7px solid #1893f8;
-    border-top:2px solid #1893f8;
+.bouton:hover {
+    color: #fff;
+    background: #363636;
+    border-bottom: 7px solid #1893f8;
+    border-top: 2px solid #1893f8;
 }
