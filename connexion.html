@@ -11,26 +11,26 @@
 
 <body>
 	<header id="top">
-		<h1> weRbeer : Réseau social pour les amoureux de bière</h1>
+		<h1 id="co"> weRbeer : Réseau social pour les amoureux de bière</h1>
 	</header>
 
 	<div class="main-content">
 		<table>
 			<tr>
-				<td>
+				<td id="inscription">
 					<form method="post" action="index.php">
 						<fieldset>
 							<legend> Connexion </legend>
-							<label for="identifiant "> Identifiant : </label><input
-								placeholder="Saisissez votre identifiant" id="identifiant" name="identifiant"
-								type="text" size="30" required />
+							<label for="identifiant "> Identifiant : </label>
 							<br />
-
-							<label for="mdp "> Mot de passe : </label><input type="password" placeholder="Saisissez votre mot de passe"
-								id="mdp" name="mdp" size="30" required>
+							<input placeholder="Saisissez votre identifiant" id="identifiant" name="identifiant" type="text" size="30" required />
+							<br />
+							<label for="mdp "> Mot de passe : </label>
+							<br />
+							<input type="password" placeholder="Saisissez votre mot de passe" id="mdp" name="mdp" size="30" required>
 						</fieldset>
-						<input type="submit" value="Se connecter" />
-						<input type="reset" value="Effacer " />
+						<input class="bouton" type="submit" value="Se connecter" />
+						<input class="bouton" type="reset" value="Effacer " />
 					</form>
 
 				</td>
@@ -38,33 +38,43 @@
 					<form method="post" action="index.php">
 						<fieldset>
 							<legend> Inscription </legend>
-							<label for="name "> Nom : </label><input placeholder="Saisissez votre nom" id="name"
+							<label for="name "> Nom : </label>
+							<br />
+							<input placeholder="Saisissez votre nom" id="name"
 								name="name" type="text" size="30" />
 							<br />
-							<label for="name "> Prénom : </label> <input placeholder="Saisissez votre prénom"
+							<label for="name "> Prénom : </label>
+							<br />
+							<input placeholder="Saisissez votre prénom"
 								id="surname" name="surname" type="text" size="30" />
 							<br />
-							<label for="birth "> Date de naissance : </label> <input type="date" id="dateNaissance" name="dateNaissance" size="30"/>
+							<label for="birth "> Date de naissance : </label> 
 							<br />
-							<label for="identifiant "> Identifiant : </label><input
-								placeholder="Saisissez votre identifiant" id="identifiant" name="identifiant"
-								type="text" size="30" />
+							<input type="date" id="dateNaissance" name="dateNaissance" size="30"/>
 							<br />
-							<label for="mdp "> Mot de passe : </label><input placeholder="Saisissez votre mot de passe"
-								id="mdp" name="mdp" type="password" size="30" />
+							<label for="identifiant "> Identifiant : </label>
+							<br />
+							<input placeholder="Saisissez votre identifiant" id="identifiant" name="identifiant" type="text" size="30" />
+							<br />
+							<label for="mdp "> Mot de passe : </label>
+							<br />
+							<input placeholder="Saisissez votre mot de passe" id="mdp" name="mdp" type="password" size="30" />
 							<br />
 							<label for="sexe ">Sexe : </label>
+							<br />
 							<select name="sexe" id="sexe ">
 								<option value="femme">Femme</option>
 								<option value="homme">Homme</option>
-							</select><br />
-
-							<label for="photo "> Photo :</label> <input type="file" name="maPhoto" id="photo" />
+							</select>
+							<br />
+							<label for="photo "> Photo :</label> 
+							<br />
+							<input type="file" name="maPhoto" id="photo" />
 						</fieldset>
 
-						<input type="submit" value="S'inscrire" />
+						<input class="bouton" type="submit" value="S'inscrire" />
 
-						<input type="reset" value="Effacer " />
+						<input class="bouton" type="reset" value="Effacer " />
 
 					</form>
 
