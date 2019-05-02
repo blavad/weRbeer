@@ -21,39 +21,52 @@ require_once('class/gestionBD.class.php');
     <?php
     include("header/header.php");
     ?>
-    <div class="main-content">
-        <h1> Mes amis </h1>
-        <table class="liste">
-        <tr id="la">
-            <td id="petit">
-                <img src="photoU/photo_david.png" width=60px height=60px/>
-            </td>
-            <td>
-                <label for="pseudo"> Pseudo </label>
-            </td>
-            <td id="petit">
-            <label for="suppr"> &#10060 </label>
-            </td>
-        </tr>
-        </table>
-        <table class="liste">
-        <tr id="la">
-            <td id="petit">
-                <img src="photoU/photo_marion.png" width=60px height=60px/>
-            </td>
-            <td>
-                <label for="pseudo"> Pseudo </label>
-            </td>
-            <td id="petit">
-            <label for="suppr"> &#10060 </label>
-            </td>
-        </tr>
-        </table>
-        
+    
+    <div class='main-content'>
+        <?php
+        $listeamis_u = NULL;
+        $bd = new GestionBD();
+        if (isset($_GET['id'])) {
+            if ($bd->isAllowed($_SESSION["util"]->getId(), $_GET['id'])) {
+                if (isset($_GET['idSupp'])) {
+                    $bd->supprimerAmi($_GET['id'], $_GET['idSupp']);
+                }
+                $util = $bd->getUtilisateur($_GET['id']);
+                echo "<h1> Amis de " . $util->getPseudo() . " </h1>"; ?>
+                
+                <!-- Formulaire de recherche avancée  -->
+                <form method="get" action="listeamis.php">
+                    <legend class="recherche" id='recherche'> <i class="glyphicon glyphicon-search"></i> Recherche avancée</legend>
+                    <fieldset class="recherche">
+                        <input type="text" style="display:none;" name="id" value="<?php echo $_GET['id']; ?>">
+                        <label for="" class="rechercheNom">Recherche par pseudo : </label>
+                        <br />
+                        <br />
+                        <input placeholder="Saisissez le pseudo" id="pseudo" name="pseudo" type="text" size="30" value=""/>
+                        <br />
+                        <hr />
+                        <input class="button_recherche" type="submit" value="Rechercher" />
+                    </fieldset>
+                </form>
+
+                <!-- Récupération des données du formulaire traitement associé  -->
+                <?php
+                $pseudo = "%";
+                if (isset($_GET['pseudo']) && $_GET['pseudo'] != "") {
+                    $type = $_GET['pseudo'];
+                }
+                $listeamis_u = getAmis($_GET['id'],$pseudo);
+                
+                echo "<h3>" . sizeof($listeamis_u) . " Résultats </h3>";
+                for ($i = 0; $i < sizeof($listeamis_u); $i++) {
+                    $listeamis_u[$i]->afficherAmis($_SESSION["util"]->getId() == $_GET['id'], $_SESSION["util"]->getId());
+                }
+            }
+        }
+                ?>  
+
     </div>
-    <?php 
-   include("navbar/navbar.php");
-    ?>
+    <?php include("navbar/navbar.php");?>
 </body>
 
 </html>

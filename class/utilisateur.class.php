@@ -44,12 +44,23 @@ class Utilisateur
             </div>";
     }
 
-    public function afficherListeAmis()
+    public function afficherAmis($supp = false, $myId)
     {
-        echo "<div>
-        <h2> Amis </h2>
-        </div>
-        ";
+        echo
+            "<article class='blocApercu'>
+            <div class='blocImage'>";
+            $this->afficherPhoto(50, 50);
+        echo "
+            </div>";
+        echo "
+            <div class='blocDescription'>
+            <a href='profil.php?id=" . $this->getId() . "' id='descriptionTitle'> " . $this->getPseudo() .  "</a>";
+            if ($supp) {      
+                echo "<a href='listeamis.php?id=" . $myId . "&idSupp=" .$this->getId() . "' class='delete_avis'><i class='glyphicon glyphicon-remove'></i></a>";
+            }
+        echo " 
+            </div>
+            </article>";
     }
 
     public function afficherCave()
