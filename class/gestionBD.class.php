@@ -1,7 +1,8 @@
 <?php
 
 require_once('class/utilisateur.class.php');
-// require_once('class/biere.class.php');
+require_once('class/biere.class.php');
+require_once('class/avis.class.php');
 
 class GestionBD
 {
@@ -37,7 +38,7 @@ class GestionBD
         $req = $this->bd->prepare("SELECT * FROM relation WHERE idU1 = ? AND idU2 = ?;");
         $req->execute(array($id_u, $id_ami));
 
-        return $req->fetch() || $id_u==$id_ami;
+        return $req->fetch() || $id_u == $id_ami;
     }
 
     function getUtilisateur($id)
@@ -68,22 +69,52 @@ class GestionBD
         return $amis;
     }
 
-    // A finir 
-    function getCave($id)
+    function recherche_avis_avancee($select = 'nomT', $id = '-1')
     {
-        $req = $this->bd->prepare("SELECT * FROM avis a WHERE a.idU=?;");
+        if ($id == "-1") {
+            $req = $this->bd->prepare("SELECT DISTINCT " . $select . " FROM FROM avis a, Biere b WHERE b.nomB=a.nomB;");
+            $req->execute();
+        } else {
+            $req = $this->bd->prepare("SELECT DISTINCT " . $select . " FROM avis a, Biere b WHERE b.nomB=a.nomB AND a.idU=?;");
+            $req->execute(array($id));
+        }
+        $res = array();
+        while ($donnees = $req->fetch()) {
+            $res[] = $donnees[$select];
+        }
+        $req->closeCursor();
+        return $res;
+    }
+
+    function getType($id = "-1")
+    {
+        return $this->recherche_avis_avancee("nomT", $id);
+    }
+
+    function getMF($id = "-1")
+    {
+        return $this->recherche_avis_avancee("nomMF", $id);
+    }
+
+    function getMarque($id = "-1")
+    {
+        return $this->recherche_avis_avancee("nomMar", $id);
+    }
+
+    function getCave($id,$type="%",$mf="%",$marque="%", $tri="")
+    {
+        $req = $this->bd->prepare("SELECT * FROM avis a, Biere b WHERE b.nomB=a.nomB AND a.idU=? AND b.nomT LIKE '".$type."' AND b.nomMar LIKE '".$marque."' AND b.nomMF LIKE '".$mf."' ".$tri.";");
         $req->execute(array($id));
 
         $cave = array();
         while ($donnees = $req->fetch()) {
-            $cave[] = new getBiere($donnees['nomB']);
+            $cave[] = new Avis($donnees['idU'],new Biere($donnees['nomB'], $donnees['alcoolemie'], $donnees['urlPhoto']), $donnees['note'], $donnees['commentaire']);
         }
         $req->closeCursor();
 
         return $cave;
     }
 
-    // A finir
     function getBiere($nomBiere)
     {
         $req = $this->bd->prepare("SELECT * FROM Biere WHERE nomB = ?;");
@@ -91,7 +122,7 @@ class GestionBD
 
         $req_biere = $req->fetch();
 
-        $biere = new Biere($req_biere['nomB']);
+        $biere = new Biere($req_biere['nomB'], $req_biere['alcoolemie'], $req_biere['urlPhoto']);
         $req->closeCursor();
 
         return $biere;
@@ -144,10 +175,11 @@ class GestionBD
 
     function supprimerAvis($mon_id, $nomBiere)
     {
-        $req = $this->bd->prepare('DELETE FROM avis WHERE idU=:idU AND nomB=:nomB');
+        echo "DELETE ".$mon_id." ".$nomBiere;
+        /* $req = $this->bd->prepare('DELETE FROM avis WHERE idU=:idU AND nomB=:nomB');
         $req->execute(array(
             'idU' => $mon_id,
             'nomB' => $nomBiere
-        ));
+        )); */
     }
 }

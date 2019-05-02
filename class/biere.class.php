@@ -49,7 +49,7 @@ class Biere
     
     public function getUrl_photo()
     {
-        return $this->url_photo;
+        return "photoB/".$this->url_photo;
     }
 
     public function afficherInfo()
