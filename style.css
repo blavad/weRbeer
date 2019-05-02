@@ -29,7 +29,7 @@ header {
 .main-content {
     padding-top: var(--height-header);
     padding-bottom: var(--height-header);
-    margin: 2%;
+    margin: 5%;
 }
 
 div#blockBiere {
@@ -69,40 +69,54 @@ div#blockNote {
 
 .blocApercu {
     background: rgba(255, 243, 137, 0.8);
-    border: #000 solid 3px;
-    margin: 20px 10px 20px 10px;
-    padding: 20px 20px 20px 20px;
-    height: 120px;
+    border: rgb(82, 74, 74) solid 2px;
+    margin: 10px 0px 20px 0px;
+    padding: 15px 15px 15px 30px;
+    overflow: hidden;
 }
 
 .blocImage {
-    float :left;
-
+    float: left;
 }
 
 .blocDescription {
     float: right;
-    margin-right: 50px; 
-    width: 75%;
+    margin-right: 30px;
+    width: 80%;
+}
+
+#buttonCommentaire {
+    color: #003764;
+    background: rgba(216, 215, 209, 0.8);
+    border: rgb(82, 74, 74) solid 1px;
+    padding: 5px 10px;
+    margin-top: 20px;
+}
+
+#buttonCommentaire:hover #blocCommentaire {
+    display: block;
 }
 
 #blocCommentaire {
-    background: rgba(216, 215, 209, 0.8);
-    border: rgb(255, 0, 0) solid 1px;
-    margin-top: 10px; 
-    padding: 5px 10px; 
+    color: black;
+    display: none;
 }
 
-#descriptionTitle{
+#descriptionTitle {
     font-size: 20px;
     color: #0d72c4;
+}
+
+#descriptionTitle:hover {
+    font-size: 20px;
+    color: #103e64;
 }
 
 .button-deconnect {
     height: 28px;
     border: 1px;
     color: var(--text-button-color);
-    color:#003764;
+    color: #003764;
     background-image: var(--mousse);
 }
 
@@ -143,10 +157,64 @@ div#blockNote {
     border: 4px solid black;
 }
 
-label{
-    width:55%;
-	float: left;
-	display: block;
+label {
+    width: 55%;
+    float: left;
+    display: block;
+}
+
+legend#recherche {
+    font-family: "monospace";
+    font-size: 150%;
+    font-weight: bold;
+    color: #363636;
+}
+
+label#rechercheBiere {
+    float: left;
+    width: 20%;
+}
+
+.option_recherche {
+    background: rgba(255, 243, 137, 0.8);
+    border: rgb(82, 74, 74) solid 2px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    max-width: 250px;
+}
+
+legend.recherche:hover {
+    cursor: pointer;
+}
+
+fieldset.recherche {
+    display: none;
+}
+
+.button_recherche {
+    color: rgba(255, 243, 137, 0.8);
+    border: rgb(82, 74, 74) solid 2px;
+    background: rgb(82, 74, 74);
+    font-weight: bold;
+    width: 150px;
+}
+
+.button_recherche:hover {
+    background: rgb(20, 20, 20);
+    border: rgb(20, 20, 20) solid 2px;
+}
+
+.delete_avis:hover{
+    color: rgb(51, 1, 1);
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.delete_avis {
+    color: red;
+    font-size: 20px;
+    float: right;
+    margin: 0;
 }
 
 table {
@@ -169,12 +237,12 @@ td {
     padding-right: 0%;
 }
 
-#co{
-padding-top: 5%;
-padding-bottom: 5%;
-margin-bottom: 3%;
-border: thin solid #363636;
-background-color: rgba(219, 221, 221, 0.342);
+#co {
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-bottom: 3%;
+    border: thin solid #363636;
+    background-color: rgba(219, 221, 221, 0.342);
 }
 
 #inscription {
@@ -189,12 +257,12 @@ background-color: rgba(219, 221, 221, 0.342);
 }
 
 h1 {
-font-family:"monospace";
-font-size: 200%;
-color:#363636;
-/*font-variant: small-caps;*/
-text-align: center;
-text-shadow: -1px -1px #eee, 1px 1px #888, -1px 0 2px #000;
+    font-family: "monospace";
+    font-size: 200%;
+    color: #363636;
+    /*font-variant: small-caps;*/
+    text-align: center;
+    text-shadow: -1px -1px #eee, 1px 1px #888, -1px 0 2px #000;
 }
 
 input {
@@ -206,40 +274,40 @@ input {
     width: 40%;
     margin-left: 8%;
     margin-bottom: 3%;
-    border:none;
-	padding:6px 0 6px 0;
-	border-radius:75%;
-	border-bottom:7px solid #003764;
-	font:bold 13px Monospace;
-	color:#363636;
-	background:#fff;
-	box-shadow:2px 2px 3px #363636;
-	border-top:2px solid #003764;
+    border: none;
+    padding: 6px 0 6px 0;
+    border-radius: 75%;
+    border-bottom: 7px solid #003764;
+    font: bold 13px Monospace;
+    color: #363636;
+    background: #fff;
+    box-shadow: 2px 2px 3px #363636;
+    border-top: 2px solid #003764;
 }
 
-.bouton:hover{
-    color:#fff;
-    background:#363636;
-    border-bottom:7px solid #1893f8;
-    border-top:2px solid #1893f8;
+.bouton:hover {
+    color: #fff;
+    background: #363636;
+    border-bottom: 7px solid #1893f8;
+    border-top: 2px solid #1893f8;
 }
 
-.liste{
+.liste {
     width: 60%;
     /*margin-bottom: 10%;*/
     margin-top: 5%;
-    margin-left:20%;
-    background-color:rgba(219, 221, 221, 0.555);
+    margin-left: 20%;
+    background-color: rgba(219, 221, 221, 0.555);
     border: thin solid #363636;
 }
 
-tr#la, td{
-    width:80%;
+tr#la, td {
+    width: 80%;
     text-align: center;
-    font-size:120%;
-    background-color:rgba(219, 221, 221, 0.555);
+    font-size: 120%;
+    background-color: rgba(219, 221, 221, 0.555);
 }
 
-tr#la, td#petit{
-width:10%;
+tr#la, td#petit {
+    width: 10%;
 }
