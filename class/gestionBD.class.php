@@ -33,6 +33,80 @@ class GestionBD
         return $res;
     }
 
+    function inscrire($data, $file)
+    {
+        $errMessage = "Inscription réussie";
+        $err = false;
+        $target_dir = "user/" . $data["identifiant"];
+
+        // Check si le pseudo est déjà utilisé
+        if (is_dir($target_dir)) {
+            $errMessage = "Identifiant déjà existant";
+            $err = true;
+        } else {
+            $target_file = $target_dir . "/" . basename($file["maPhoto"]["name"]);
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+            // Check si une image a été chosie
+            if ($file["maPhoto"]["name"] != "") {
+                // Check si l'image est correct
+                if (isset($data["submit"])) {
+                    $check = getimagesize($file["maPhoto"]["tmp_name"]);
+                    if ($check !== false) {
+                        $err = false;
+                    } else {
+                        $errMessage = "Image incorrect";
+                        $err = true;
+                    }
+                }
+
+                // Check si le fichier existe déjà
+                if (file_exists($target_file)) {
+                    $errMessage = "Fichier image déjà existant";
+                    $err = true;
+                }
+                // Check la dimension de l'image
+                if ($file["maPhoto"]["size"] > 100000) {
+                    $errMessage = "Fichier image trop gros";
+                    $err = true;
+                }
+                // Check le bon format de l'image
+                if (
+                    $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif"
+                ) {
+                    $errMessage = "Format fichier incorrect";
+                    $err = true;
+                }
+            }
+            // Check if $err is set to 0 by an error
+            if (!$err) {
+                mkdir($target_dir);
+                $urlPhoto = "";
+                if ($file["maPhoto"]["name"] == "") {
+                    $urlPhoto = "photoProf.png";
+                    $target_file = $target_dir . "/" .$urlPhoto;
+                    copy("img/photoProf.png", $target_file);
+                } else {
+                    $urlPhoto = $file["maPhoto"]["name"];
+                    move_uploaded_file($file["maPhoto"]["tmp_name"], $target_file);
+                }
+                $req = $this->bd->prepare('INSERT INTO Utilisateur(pseudo,mdp, dateNaissance, urlPhoto, sexe) VALUES(:pseudo, :mdp, :dateNaissance, :urlPhoto, :sexe)');
+                $req->execute(array(
+                    'pseudo' => $data['identifiant'],
+                    'mdp' => $data['mdp'],
+                    'dateNaissance' => $data['dateNaissance'],
+                    'urlPhoto' => $urlPhoto,
+                    'sexe' => $data['sexe']
+                ));
+            }
+        }
+        return array('erreur' => $err, 'errMessage' => $errMessage);
+    }
+
+
+    // Utilisateur et amis 
+
     function isAllowed($id_u, $id_ami)
     {
         $req = $this->bd->prepare("SELECT * FROM relation WHERE idU1 = ? AND idU2 = ?;");
@@ -55,24 +129,46 @@ class GestionBD
         return $util;
     }
 
-    function getAmis($id)
+    function getAmis($id, $partName)
     {
-        $req = $this->bd->prepare("SELECT idU2 FROM relation r WHERE r.idU1=?;");
+        $req = $this->bd->prepare("SELECT idU2 FROM relation r, Utilisateur u WHERE r.idU1=? AND r.idU2=u.idU AND u.pseudo LIKE '%" . $partName . "%' ;");
         $req->execute(array($id));
 
         $amis = array();
         while ($donnees = $req->fetch()) {
-            $amis[] = new getUtilsateur($donnees['idU2']);
+            $amis[] = $this->getUtilisateur($donnees['idU2']);
         }
         $req->closeCursor();
 
         return $amis;
     }
 
-    function recherche_avis_avancee($select = 'nomT', $id = '-1')
+    function addAmi($mon_id, $id_ami)
+    {
+        $req = $this->bd->prepare('INSERT INTO relation(idU1,idU2) VALUES(:idU1, :idU2)');
+        $req->execute(array(
+            'idU1' => $mon_id,
+            'idU2' => $id_ami
+        ));
+    }
+
+    function supprimerAmi($mon_id, $id_ami)
+    {
+        echo "DELETE " . $mon_id . " " . $id_ami; /* 
+        $req = $this->bd->prepare('DELETE FROM relation WHERE idU1=:idU1 AND idU2=:idU2');
+        $req->execute(array(
+            'idU1' => $mon_id,
+            'idU2' => $id_ami
+        )); */
+    }
+
+
+    // Bieres et avis
+
+    function recherche_avis_avancee($select = 'nomT', $id = "-1")
     {
         if ($id == "-1") {
-            $req = $this->bd->prepare("SELECT DISTINCT " . $select . " FROM FROM avis a, Biere b WHERE b.nomB=a.nomB;");
+            $req = $this->bd->prepare("SELECT DISTINCT " . $select . " FROM avis a, Biere b WHERE b.nomB=a.nomB;");
             $req->execute();
         } else {
             $req = $this->bd->prepare("SELECT DISTINCT " . $select . " FROM avis a, Biere b WHERE b.nomB=a.nomB AND a.idU=?;");
@@ -101,31 +197,66 @@ class GestionBD
         return $this->recherche_avis_avancee("nomMar", $id);
     }
 
-    function getCave($id,$type="%",$mf="%",$marque="%", $tri="")
+    function getBiere($nomBiere)
     {
-        $req = $this->bd->prepare("SELECT * FROM avis a, Biere b WHERE b.nomB=a.nomB AND a.idU=? AND b.nomT LIKE '".$type."' AND b.nomMar LIKE '".$marque."' AND b.nomMF LIKE '".$mf."' ".$tri.";");
+        $req = $this->bd->prepare("SELECT * FROM Biere WHERE nomB = ?;");
+        $req->execute(array($nomBiere));
+
+        $donnees = $req->fetch();
+
+        $biere = new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto']);
+        $req->closeCursor();
+
+        return $biere;
+    }
+
+    function getBieres($type, $mf, $marque, $tri)
+    {
+        $req = $this->bd->prepare("SELECT * FROM Biere b WHERE b.nomT LIKE '" . $type . "' AND b.nomMar LIKE '" . $marque . "' AND b.nomMF LIKE '" . $mf . "' " . $tri . ";");
+        $req->execute(array($type, $mf, $marque, $tri));
+
+        $bieres = array();
+        while ($donnees = $req->fetch()) {
+            $bieres[] = new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto']);
+        }
+        $req->closeCursor();
+
+        return $bieres;
+    }
+
+    function getCave($id, $type = "%", $mf = "%", $marque = "%", $tri = "")
+    {
+        $req = $this->bd->prepare("SELECT * FROM avis a, Biere b WHERE b.nomB=a.nomB AND a.idU=? AND b.nomT LIKE '" . $type . "' AND b.nomMar LIKE '" . $marque . "' AND b.nomMF LIKE '" . $mf . "' " . $tri . ";");
         $req->execute(array($id));
 
         $cave = array();
         while ($donnees = $req->fetch()) {
-            $cave[] = new Avis($donnees['idU'],new Biere($donnees['nomB'], $donnees['alcoolemie'], $donnees['urlPhoto']), $donnees['note'], $donnees['commentaire']);
+            $cave[] = new Avis($donnees['idU'], new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto']), $donnees['note'], $donnees['commentaire']);
         }
         $req->closeCursor();
 
         return $cave;
     }
 
-    function getBiere($nomBiere)
+    function addAvis($id, $nomBiere, $note, $com)
     {
-        $req = $this->bd->prepare("SELECT * FROM Biere WHERE nomB = ?;");
-        $req->execute(array($nomBiere));
+        $req = $this->bd->prepare('INSERT INTO avis(idU,nomB,note,commentaire ) VALUES(:idU, :nomB, :note, :commentaire)');
+        $req->execute(array(
+            'idU' => $id,
+            'nomB' => $nomBiere,
+            'note' => $note,
+            'commentaire' => $com
+        ));
+    }
 
-        $req_biere = $req->fetch();
-
-        $biere = new Biere($req_biere['nomB'], $req_biere['alcoolemie'], $req_biere['urlPhoto']);
-        $req->closeCursor();
-
-        return $biere;
+    function supprimerAvis($mon_id, $nomBiere)
+    {
+        echo "DELETE " . $mon_id . " " . $nomBiere;
+        /* $req = $this->bd->prepare('DELETE FROM avis WHERE idU=:idU AND nomB=:nomB');
+        $req->execute(array(
+            'idU' => $mon_id,
+            'nomB' => $nomBiere
+        )); */
     }
 
     // A finir 
@@ -142,44 +273,5 @@ class GestionBD
         $req->closeCursor();
 
         return $actu;
-    }
-
-    function addAmi($mon_id, $id_ami)
-    {
-        $req = $this->bd->prepare('INSERT INTO relation(idU1,idU2) VALUES(:idU1, :idU2)');
-        $req->execute(array(
-            'idU1' => $mon_id,
-            'idU2' => $id_ami
-        ));
-    }
-
-    function supprimerAmi($mon_id, $id_ami)
-    {
-        $req = $this->bd->prepare('DELETE FROM relation WHERE idU1=:idU1 AND idU2=:idU2');
-        $req->execute(array(
-            'idU1' => $mon_id,
-            'idU2' => $id_ami
-        ));
-    }
-
-    function addAvis($id, $nomBiere, $note, $com)
-    {
-        $req = $this->bd->prepare('INSERT INTO avis(idU,nomB,note,commentaire ) VALUES(:idU, :nomB, :note, :commentaire)');
-        $req->execute(array(
-            'idU' => $id,
-            'nomB' => $nomBiere,
-            'note' => $note,
-            'commentaire' => $com
-        ));
-    }
-
-    function supprimerAvis($mon_id, $nomBiere)
-    {
-        echo "DELETE ".$mon_id." ".$nomBiere;
-        /* $req = $this->bd->prepare('DELETE FROM avis WHERE idU=:idU AND nomB=:nomB');
-        $req->execute(array(
-            'idU' => $mon_id,
-            'nomB' => $nomBiere
-        )); */
     }
 }

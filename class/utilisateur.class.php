@@ -31,7 +31,7 @@ class Utilisateur
     
     public function getURL_Photo()
     {
-        return "photoU/".$this->url_photo;
+        return "user/".$this->pseudo."/".$this->url_photo;
     }
 
     public function afficherInfo($total = true)
