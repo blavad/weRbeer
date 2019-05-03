@@ -45,18 +45,18 @@ class Avis
     public function afficherAvis($supp = false)
     {
         echo
-            "<article class='blocApercu'>
+        "<article class='blocApercu'>
         <div class='blocImage'>";
         $this->getBiere()->afficherPhoto(35, 120);
         echo "
         </div>";
+                if ($supp) {      
+                    echo "<a href='cave.php?id=".$this->getIdU()."&nomB=".$this->getBiere()->getNom()."' class='delete_avis'><i class='glyphicon glyphicon-remove'></i></a>";
+                }
         echo "
         <div class='blocDescription'>
         <a href='bieres.php?id=" . $this->getBiere()->getNom() . "' id='descriptionTitle'> " . $this->getBiere()->getNom() .  "</a>";
         echo " (<span style='color:red; font : bold;'>" . $this->getNote() . "</span>/5)";
-        if ($supp) {      
-            echo "<a href='cave.php?id=".$this->getIdU()."' class='delete_avis'><i class='glyphicon glyphicon-remove'></i></a>";
-        }
         echo "<div id='buttonCommentaire'> Commentaire... <div id='blocCommentaire'>" . $this->getCommentaire() . " </div></div> 
         </div>
         </article>";

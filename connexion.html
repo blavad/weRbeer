@@ -2,32 +2,37 @@
 <html>
 
 <head>
-	<title> Connexion </title>
+	<title> weRbeer -- Connexion </title>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<meta http-equiv="Content-Style-Type" content="text/css" />
 	<link rel="stylesheet" type="text/css" href="style.css" media="all" />
 	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="icon" type="image/png" href="img/logo.png" />
+
 </head>
 
 <body>
-	<header>
-		<h1 > weRbeer : Réseau social pour les amoureux de bière</h1>
+	<header style="height:100px;">
+		<img class="leftSide" src="img/logo.png" width="70" height="70"/>
+		<h1 class=""> weRbeer : Réseau social pour les amoureux de bière</h1>
 	</header>
 
-	<div class="main-content">
+	<div class="main-content" style="padding-bottom:0%;margin-top:1%;">
 		<table>
 			<tr>
 				<td id="inscription">
 					<form method="post" action="index.php">
-						<fieldset id ='co'>
+						<fieldset id='co'>
 							<legend> Connexion </legend>
 							<label for="identifiant "> Identifiant : </label>
 							<br />
-							<input placeholder="Saisissez votre identifiant" id="identifiant" name="identifiant" type="text" size="30" required />
+							<input placeholder="Saisissez votre identifiant" id="identifiant" name="identifiant"
+								type="text" size="30" required />
 							<br />
 							<label for="mdp "> Mot de passe : </label>
 							<br />
-							<input type="password" placeholder="Saisissez votre mot de passe" id="mdp" name="mdp" size="30" required>
+							<input type="password" placeholder="Saisissez votre mot de passe" id="mdp" name="mdp"
+								size="30" required>
 
 						</fieldset>
 						<input class="bouton" type="submit" value="Se connecter" />
@@ -36,30 +41,31 @@
 
 				</td>
 				<td>
-					<form method="post" action="index.php">
+					<form method="post" action="index.php" enctype="multipart/form-data">
 						<fieldset id="co">
 							<legend> Inscription </legend>
 							<label for="name "> Nom : </label>
 							<br />
-							<input placeholder="Saisissez votre nom" id="name"
-								name="name" type="text" size="30" />
+							<input placeholder="Saisissez votre nom" id="name" name="name" type="text" size="30" required/>
 							<br />
 							<label for="name "> Prénom : </label>
 							<br />
-							<input placeholder="Saisissez votre prénom"
-								id="surname" name="surname" type="text" size="30" />
+							<input placeholder="Saisissez votre prénom" id="surname" name="surname" type="text"
+								size="30" required/>
 							<br />
-							<label for="birth "> Date de naissance : </label> 
+							<label for="birth "> Date de naissance : </label>
 							<br />
-							<input type="date" id="dateNaissance" name="dateNaissance" size="30"/>
+							<input type="date" id="dateNaissance" name="dateNaissance" size="30" required/>
 							<br />
 							<label for="identifiant "> Identifiant : </label>
 							<br />
-							<input placeholder="Saisissez votre identifiant" id="identifiant" name="identifiant" type="text" size="30" />
+							<input placeholder="Saisissez votre identifiant" id="identifiant" name="identifiant"
+								type="text" size="30" required/>
 							<br />
 							<label for="mdp "> Mot de passe : </label>
 							<br />
-							<input placeholder="Saisissez votre mot de passe" id="mdp" name="mdp" type="password" size="30" />
+							<input placeholder="Saisissez votre mot de passe" id="mdp" name="mdp" type="password"
+								size="30" required/>
 							<br />
 							<label for="sexe ">Sexe : </label>
 							<br />
@@ -68,9 +74,9 @@
 								<option value="homme">Homme</option>
 							</select>
 							<br />
-							<label for="photo "> Photo :</label> 
+							<label for="photo "> Photo :</label>
 							<br />
-							<input type="file" name="maPhoto" id="photo" />
+							<input type="file" name="maPhoto" id="photo"/>
 						</fieldset>
 
 						<input class="bouton" type="submit" value="S'inscrire" />

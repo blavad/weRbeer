@@ -7,7 +7,7 @@ require_once('class/gestionBD.class.php');
 <html>
 
 <head>
-    <title>Fil d'actualité</title>
+    <title>weRbeer -- Actus</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <link rel="stylesheet" type="text/css" href="style.css" media="all" />
@@ -20,7 +20,7 @@ require_once('class/gestionBD.class.php');
 <body>
     <?php
     include("header/header.php");
-    ?>
+    ?> 
     <div class="main-content">
         <h1> Site bière</h1>
         

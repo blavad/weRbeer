@@ -9,7 +9,7 @@ session_start();
 <html>
 
 <head>
-    <title>Profil</title>
+    <title>weRbeer -- Profil</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

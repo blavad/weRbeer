@@ -11,7 +11,7 @@ session_start();
 <html>
 
 <head>
-    <title>Cave</title>
+    <title>weRbeer -- Cave</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <link rel="stylesheet" type="text/css" href="style.css" media="all" />
@@ -44,9 +44,9 @@ session_start();
         $bd = new GestionBD();
         if (isset($_GET['id'])) {
             if ($bd->isAllowed($_SESSION["util"]->getId(), $_GET['id'])) {
-                /* if (isset($_GET['nomB'])) {
+                if (isset($_GET['nomB'])) {
                     $bd->supprimerAvis($_GET['id'], $_GET['nomB']);
-                } */
+                }
                 $util = $bd->getUtilisateur($_GET['id']);
                 echo "<h1> Cave de " . $util->getPseudo() . " </h1>"; ?>
                 <!-- Formulaire de recherche avancée  -->
@@ -59,9 +59,9 @@ session_start();
                         <br />
                         <select class='option_recherche' name="tri">
                             <option value=""> -- Choisissez une option --</option>
-                            <option value="nomB">Ordre alphabétique</option>
-                            <option value="note">Note : ordre croissant</option>
-                            <option value="note DESC">Note : ordre décroissant</option>
+                            <option value="b.nomB">Ordre alphabétique</option>
+                            <option value="a.note">Note : ordre croissant</option>
+                            <option value="a.note DESC">Note : ordre décroissant</option>
                         </select>
                         <br />
                         <hr />
