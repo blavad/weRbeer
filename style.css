@@ -2,9 +2,9 @@
     --bg-color: rgb(201, 150, 9);
     --text-color: black;
     --text-button-color: rgb(219, 172, 18);
-    --height-header: 70px;
-    --mousse: url("img/header_back.png");
-    --bulle: url("img/bg_milieu.png");
+    --height-header: 120px;
+    --mousse: url("img/headTest.png");
+    --bulle: url("img/bg_milieu2.jpg");
 }
 
 * {
@@ -24,12 +24,16 @@ header {
     height: var(--height-header);
     top: 0;
     background-image: var(--mousse);
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .main-content {
     padding-top: var(--height-header);
     padding-bottom: var(--height-header);
-    margin: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+
 }
 
 div#blockBiere {
@@ -126,19 +130,20 @@ div#blockNote {
 }
 
 .header-block {
+    overflow: hidden;
     width: auto;
-    margin-top: calc(var(--height-header) / 4);
-    margin-bottom: calc(var(--height-header) / 4);
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .leftSide {
     float: left;
-    margin-left: 20px;
+    margin-left: 2%;
 }
 
 .rightSide {
     float: right;
-    margin-right: 20px;
+    margin-right: 2%;
 }
 
 .centerPart {

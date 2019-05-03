@@ -2,7 +2,6 @@
 
 class Biere
 {
-    protected $id;
     protected $nom;
     protected $degre;
     protected $fabriquant;
@@ -13,17 +12,17 @@ class Biere
     protected $nbAvis;
     protected $url_photo;
 
-    public function __construct($n, $d, $url)
+    public function __construct($nomB,$type, $mf,$deg, $moy, $nomMar ,$url)
     {
-        $this->nom = $n;
-        $this->degre = $d;
+        $this->nom = $nomB;
+        $this->degre = $deg;
+        $this->appelation = $type;
+        $this->fabrication = $mf;
+        $this->moyenne = $moy;
+        $this->fabriquant = $nomMar;
         $this->url_photo = $url;
         $this->nbAvis = 0;
-        $this->moyenne = 0;
         $this->ingredients = NULL;
-        $this->fabriquant = NULL;
-        $this->fabrication = NULL;
-        $this->appelation = NULL;
         
     }
 
@@ -82,5 +81,22 @@ class Biere
     {
         echo
             "<img src='" . $this->getUrl_photo() . "' width='" . $width . "px' height='" . $height . "px'>";
+    }
+
+    public function afficherBiere()
+    {
+        echo
+        "<article class='blocApercu'>
+        <div class='blocImage'>";
+        $this->afficherPhoto(35, 120);
+        echo "
+        </div>";
+        echo "
+        <div class='blocDescription'>
+        <a href='bieres.php?id=" . $this->getNom() . "' id='descriptionTitle'> " . $this->getNom() .  "</a>";
+        echo " (<span style='color:red; font : bold;'>" . $this->getMoyenne() . "</span>/5)";
+        echo "<div id='buttonCommentaire'> Description... <div id='blocCommentaire'>" . $this->getNbAvis() . " </div></div> 
+        </div>
+        </article>";
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-$NB_AFFICHAGE = 4;
+$NB_AFFICHAGE = 3;
 
 $server = "127.0.0.1";
 $username = "weRbeer";
@@ -16,13 +16,28 @@ $req = $bd->prepare('SELECT * FROM Utilisateur WHERE pseudo LIKE :term ORDER BY 
 $req->execute(array('term' => $term . '%'));
 
 $array = [];
-$i =0;
+$i = 0;
 
-while (($donnee = $req->fetch()) && ($i<$NB_AFFICHAGE )) {
+while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
     $label = $donnee['pseudo'] . ' -- ' . $donnee['idU'];
-    $u = array('value' => $donnee['idU'], 'label' => $label, 'icon' => 'photoU/'.$donnee['urlPhoto']);
+    $u = array('type' => "u", 'value' => $donnee['idU'], 'label' => $label, 'icon' => 'photoU/' . $donnee['urlPhoto']);
     array_push($array, $u);
     $i++;
 }
+
+$req = $bd->prepare('SELECT * FROM Biere WHERE nomB LIKE :term ORDER BY nomB');
+$req->execute(array('term' => $term . '%'));
+
+$i = 0;
+while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
+    $label = $donnee['nomB'];
+    $u = array('type' => "b", 'value' => $donnee['nomB'], 'label' => $label, 'icon' => 'photoB/' . $donnee['urlPhoto']);
+    array_push($array, $u);
+    $i++;
+}
+
+$label = "Autre ...";
+$u = array('type' => "o", 'value' => "", 'label' => $label, 'icon' => 'img/plus.png');
+array_push($array, $u);
 
 echo json_encode($array);
