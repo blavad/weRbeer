@@ -152,7 +152,7 @@ class GestionBD
 
         $req_util = $req->fetch();
 
-        $util = new Utilisateur($req_util['idU'], req_util['nom'], $req_util['prenom'], $req_util['pseudo'], $req_util['sexe'], $req_util['dateNaissance'], $req_util['urlPhoto']);
+        $util = new Utilisateur($req_util['idU'], $req_util['nom'], $req_util['prenom'], $req_util['pseudo'], $req_util['sexe'], $req_util['dateNaissance'], $req_util['urlPhoto']);
 
         $req->closeCursor();
 
@@ -184,8 +184,7 @@ class GestionBD
 
     function supprimerAmi($mon_id, $id_ami)
     {
-        echo "DELETE " . $mon_id . " " . $id_ami;
-        $req = $this->bd->prepare('DELETE FROM relation WHERE idU1=:idU1 AND idU2=:idU2');
+         $req = $this->bd->prepare('DELETE FROM relation WHERE idU1=:idU1 AND idU2=:idU2');
         $req->execute(array(
             'idU1' => $mon_id,
             'idU2' => $id_ami

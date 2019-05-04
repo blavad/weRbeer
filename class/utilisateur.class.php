@@ -12,6 +12,7 @@ class Utilisateur
 
     
     public function __construct($id, $nom,$prenom, $pseudo, $dateNaissance="01/01/2000", $sexe="Unknown", $url_photo="photo_marion.png")
+
     {
         $this->nom = $nom;
         $this->prenom = $prenom;
@@ -57,8 +58,14 @@ class Utilisateur
     {
         echo
             "<div >
-                <div >" . $this->afficherPhoto(150, 150) . "</div>
-                <h2> " . $this -> getNom() . $this->getPrenom() . "(" . $this->getPseudo() . ")" . "</h2>
+                <div>" . $this->afficherPhoto(180, 180) . "</div>";
+                if ($total){
+                    echo "<a href='profil.php?id=" . $this->getId() . "&idSupp=" .$this->getId() . " 'class='delete_avis'> Supprimer <i class='glyphicon glyphicon-remove'></i></a>";
+                }
+                if ($total==false){
+                    echo "<a href='profil.php?id=" . $this->getId() . "&idAdd=" .$this->getId() . " 'class='add_avis'> Ajouter <i class='glyphicon glyphicon-plus'></i></a>";
+                }
+                echo "<h2> " . $this -> getNom() . " " . $this->getPrenom() . "(" . $this->getPseudo() . ")" . "</h2>
                 <h3> " . $this->getDateNaissance() . " </h3>
             </div>";
     }
