@@ -11,8 +11,10 @@ class Utilisateur
     protected $prenom;
 
     
-    public function __construct($id, $pseudo, $dateNaissance="01/01/2000", $sexe="Unknown", $url_photo="photo_marion.png")
+    public function __construct($id, $nom,$prenom, $pseudo, $dateNaissance="01/01/2000", $sexe="Unknown", $url_photo="photo_marion.png")
     {
+        $this->nom = $nom;
+        $this->prenom = $prenom;
         $this->identifiant = $id;
         $this->pseudo = $pseudo;
         $this->sexe = $sexe;
@@ -23,12 +25,12 @@ class Utilisateur
 
     public function getNom()
     {
-        return "Schaeff";
+        return $this-> nom;
     }
 
     public function getPrenom()
     {
-        return "Mar";
+        return $this->prenom;
     }
 
     public function getPseudo()

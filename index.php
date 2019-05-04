@@ -50,7 +50,7 @@ if (isset($_SESSION['util'])) {
       // Connexion administrateur
       if (($_POST["identifiant"] == "admin") && ($_POST["mdp"] == "frosties")) {
         $_SESSION['admin'] = true;
-        $_SESSION['util'] = new Utilisateur(0, 'admin');
+        $_SESSION['util'] = new Utilisateur(0,"","", 'admin');
         include('ajoutBiere.php');
       } else {
         // Simple Connexion

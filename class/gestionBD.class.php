@@ -91,8 +91,10 @@ class GestionBD
                     $urlPhoto = $file["maPhoto"]["name"];
                     move_uploaded_file($file["maPhoto"]["tmp_name"], $target_file);
                 }
-                $req = $this->bd->prepare('INSERT INTO Utilisateur(pseudo,mdp, dateNaissance, urlPhoto, sexe) VALUES(:pseudo, :mdp, :dateNaissance, :urlPhoto, :sexe)');
+                $req = $this->bd->prepare('INSERT INTO Utilisateur(nom,prenom,pseudo,mdp, dateNaissance, urlPhoto, sexe) VALUES(:nom, :prenom,:pseudo, :mdp, :dateNaissance, :urlPhoto, :sexe)');
                 $req->execute(array(
+                    'nom' => $data['name'],
+                    'prenom' => $data['surname'],
                     'pseudo' => $data['identifiant'],
                     'mdp' => $data['mdp'],
                     'dateNaissance' => $data['dateNaissance'],
@@ -150,7 +152,7 @@ class GestionBD
 
         $req_util = $req->fetch();
 
-        $util = new Utilisateur($req_util['idU'], $req_util['pseudo'], $req_util['sexe'], $req_util['dateNaissance'], $req_util['urlPhoto']);
+        $util = new Utilisateur($req_util['idU'], req_util['nom'], $req_util['prenom'], $req_util['pseudo'], $req_util['sexe'], $req_util['dateNaissance'], $req_util['urlPhoto']);
 
         $req->closeCursor();
 
@@ -245,7 +247,10 @@ class GestionBD
 
         $bieres = array();
         while ($donnees = $req->fetch()) {
-            $bieres[] = new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto']);
+            $reqAvis = $this->bd->prepare("SELECT COUNT(*) FROM avis a WHERE a.nomB = ?;");
+            $reqAvis->execute(array($donnees['nomB']));
+            $nbA = $reqAvis->fetch();
+            $bieres[] = new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto'],$nbA['COUNT(*)']);
         }
         $req->closeCursor();
 

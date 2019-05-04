@@ -12,7 +12,7 @@ class Biere
     protected $nbAvis;
     protected $url_photo;
 
-    public function __construct($nomB, $type, $mf, $deg, $moy, $nomMar, $url)
+    public function __construct($nomB, $type, $mf, $deg, $moy, $nomMar, $url,$nbAv=0)
     {
         $this->nom = $nomB;
         $this->degre = $deg;
@@ -21,7 +21,7 @@ class Biere
         $this->moyenne = $moy;
         $this->fabriquant = $nomMar;
         $this->url_photo = $url;
-        $this->nbAvis = 0;
+        $this->nbAvis = $nbAv;
         $this->ingredients = NULL;
     }
 
