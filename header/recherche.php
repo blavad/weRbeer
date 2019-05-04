@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 $NB_AFFICHAGE = 3;
 
 $server = "127.0.0.1";
@@ -11,24 +13,26 @@ try {
     die('Erreur : ' . $err->getMessage());
 }
 $term = $_GET['term'];
-
-$req = $bd->prepare('SELECT * FROM Utilisateur WHERE pseudo LIKE :term ORDER BY pseudo');
-$req->execute(array('term' => $term . '%'));
-
 $array = [];
 $i = 0;
 
-while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
-    $label = $donnee['pseudo'] . ' -- ' . $donnee['idU'];
-    $u = array('type' => "u", 'value' => $donnee['idU'], 'label' => $label, 'icon' => 'photoU/' . $donnee['urlPhoto']);
-    array_push($array, $u);
-    $i++;
+if (!isset($_SESSION['admin'])) {
+    $req = $bd->prepare('SELECT * FROM Utilisateur WHERE pseudo LIKE :term ORDER BY pseudo');
+    $req->execute(array('term' => $term . '%'));
+
+    while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
+        $label = $donnee['pseudo'] . ' -- ' . $donnee['idU'];
+        $u = array('type' => "u", 'value' => $donnee['idU'], 'label' => $label, 'icon' => 'photoU/' . $donnee['urlPhoto']);
+        array_push($array, $u);
+        $i++;
+    }
 }
+
+$i = (isset($_SESSION['admin']))? -3:0;
 
 $req = $bd->prepare('SELECT * FROM Biere WHERE nomB LIKE :term ORDER BY nomB');
 $req->execute(array('term' => $term . '%'));
 
-$i = 0;
 while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
     $label = $donnee['nomB'];
     $u = array('type' => "b", 'value' => $donnee['nomB'], 'label' => $label, 'icon' => 'photoB/' . $donnee['urlPhoto']);

@@ -75,7 +75,7 @@ class Utilisateur
     {
         echo
             "<a href ='profil.php?id=" . $this->getId() . "'>
-                <img src='" . $this->getURL_Photo() . "'  alt='".$this->getURL_Photo()."' width='" . $width . "px' height='" . $height . "px'>
+                <img src='" . $this->getURL_Photo() . "'  alt='' width='" . $width . "px' height='" . $height . "px'>
             </a>";
     }
 }

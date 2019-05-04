@@ -79,13 +79,13 @@ class GestionBD
                     $err = true;
                 }
             }
-            // Check if $err is set to 0 by an error
+            // Si pas d'erreur on crée le dossier utilisateur et on ajoute la photo
             if (!$err) {
                 mkdir($target_dir);
                 $urlPhoto = "";
                 if ($file["maPhoto"]["name"] == "") {
                     $urlPhoto = "photoProf.png";
-                    $target_file = $target_dir . "/" .$urlPhoto;
+                    $target_file = $target_dir . "/" . $urlPhoto;
                     copy("img/photoProf.png", $target_file);
                 } else {
                     $urlPhoto = $file["maPhoto"]["name"];
@@ -104,6 +104,34 @@ class GestionBD
         return array('erreur' => $err, 'errMessage' => $errMessage);
     }
 
+    function addBiere($data, $file)
+    {
+        $errMessage = "Biere ajoutée";
+        $err = false;
+        if ($data['type'] == "" || $data['marque'] == "" ||  $data['mf'] == "") {
+            $errMessage = "Champs maquant";
+            $err = true;
+        }
+        $req = $this->bd->prepare("SELECT nomB FROM Biere WHERE nomB=?;");
+        $req->execute(array($data['nomB']));
+        if ($donnees = $req->fetch()) {
+            $errMessage = "Bière déjà existante";
+            $err = true;
+        }
+        if (!$err) {
+            $urlPhoto = $file["photoBiere"]["name"];
+            $req = $this->bd->prepare('INSERT INTO Biere(nomB,nomMar, nomT, nomMF, alcoolemie, urlPhoto) VALUES(:nomB,:nomMar,:nomT,:nomMF,:alcoolemie,:urlPhoto)');
+            $req->execute(array(
+                'nomB' => $data['nomB'],
+                'nomMar' => $data['marque'],
+                'nomT' => $data['type'],
+                'nomMF' => $data['mf'],
+                'alcoolemie' => $data['alco'],
+                'urlPhoto' => $urlPhoto,
+            ));
+        }
+        return array('erreur' => $err, 'errMessage' => $errMessage);
+    }
 
     // Utilisateur et amis 
 
@@ -154,12 +182,12 @@ class GestionBD
 
     function supprimerAmi($mon_id, $id_ami)
     {
-        echo "DELETE " . $mon_id . " " . $id_ami; /* 
+        echo "DELETE " . $mon_id . " " . $id_ami;
         $req = $this->bd->prepare('DELETE FROM relation WHERE idU1=:idU1 AND idU2=:idU2');
         $req->execute(array(
             'idU1' => $mon_id,
             'idU2' => $id_ami
-        )); */
+        ));
     }
 
 
@@ -168,7 +196,7 @@ class GestionBD
     function recherche_avis_avancee($select = 'nomT', $id = "-1")
     {
         if ($id == "-1") {
-            $req = $this->bd->prepare("SELECT DISTINCT " . $select . " FROM avis a, Biere b WHERE b.nomB=a.nomB;");
+            $req = $this->bd->prepare("SELECT DISTINCT " . $select . " FROM Biere b;");
             $req->execute();
         } else {
             $req = $this->bd->prepare("SELECT DISTINCT " . $select . " FROM avis a, Biere b WHERE b.nomB=a.nomB AND a.idU=?;");
@@ -252,11 +280,11 @@ class GestionBD
     function supprimerAvis($mon_id, $nomBiere)
     {
         echo "DELETE " . $mon_id . " " . $nomBiere;
-        /* $req = $this->bd->prepare('DELETE FROM avis WHERE idU=:idU AND nomB=:nomB');
+        $req = $this->bd->prepare('DELETE FROM avis WHERE idU=:idU AND nomB=:nomB');
         $req->execute(array(
             'idU' => $mon_id,
             'nomB' => $nomBiere
-        )); */
+        ));
     }
 
     // A finir 
