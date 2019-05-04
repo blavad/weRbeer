@@ -166,10 +166,20 @@ div#blockNote {
 }
 
 .fen-apercu {
+    margin-top: 3%;
     width: 40%;
-    height: 50px;
+    height: 80px;
     background-color: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(0, 0, 0, 0.808);
+    border: 2px solid #003764;
+    text-align: center;
+}
+
+#ut{
+    color: #003764;
+}
+
+#ut:hover{
+    color:#0d72c4;
 }
 
 label {
@@ -220,14 +230,27 @@ fieldset.recherche {
 }
 
 .delete_avis:hover {
-    color: rgb(51, 1, 1);
-    font-size: 30px;
+    color: rgb(109, 2, 2);
+    font-size: 40px;
     cursor: pointer;
 }
 
 .delete_avis {
     color: red;
-    font-size: 20px;
+    font-size: 30px;
+    float: right;
+    margin: 0;
+}
+
+.add_avis:hover {
+    color: rgb(17, 80, 1);
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.add_avis {
+    color: green;
+    font-size: 30px;
     float: right;
     margin: 0;
 }
