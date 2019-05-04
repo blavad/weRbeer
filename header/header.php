@@ -47,10 +47,6 @@
     <div class="leftSide">
         <?php
         echo "<a href='index.php'><img class='leftSide' src='img/logo.png' width='70' height='70'/></a>";
-        // On affiche la photo de profil
-        /*  if (isset($_SESSION['util'])) {
-            $_SESSION['util']->afficherPhoto(40, 40);
-        } */
         ?>
     </div>
     <div class="header-block rightSide">

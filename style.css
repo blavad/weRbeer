@@ -33,7 +33,6 @@ header {
     padding-bottom: var(--height-header);
     padding-left: 5%;
     padding-right: 5%;
-
 }
 
 div#blockBiere {
@@ -69,6 +68,17 @@ div#blockNote {
     width: 300px;
     height: 200px;
     border-color: black;
+}
+
+#logo_alco {
+    float : right;
+    overflow: hidden;
+}
+
+#text_alco {
+    font-family: Gabriola, "Gentium Basic", Georgia;
+    font-size: 15px;
+    color: #003764;;
 }
 
 .blocApercu {
@@ -209,7 +219,7 @@ fieldset.recherche {
     border: rgb(20, 20, 20) solid 2px;
 }
 
-.delete_avis:hover{
+.delete_avis:hover {
     color: rgb(51, 1, 1);
     font-size: 30px;
     cursor: pointer;
