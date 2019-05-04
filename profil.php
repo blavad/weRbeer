@@ -37,13 +37,11 @@ session_start();
         if ($bd->isAllowed($_SESSION["util"]->getId(), $prof_u->getId())) {
             $prof_u->afficherInfo(true); ?>
             <a href=<?php echo "'cave.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu leftSide'>
-                <h3 style="color: black;
-                    "> Cave à bière </h3>
+                <h3 style="color: black;"> Cave à bière </h3>
             </a>
 
             <a href=<?php echo "'amis.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu rightSide'>
-                <h3 style="color: black;
-                    "> Relations </h3>
+                <h3 style="color: black;"> Liste d'amis </h3>
             </a>
         <?php
     } else {
@@ -51,10 +49,6 @@ session_start();
     }
     ?>
 
-
-        <?php
-        include("navbar/navbar.php");
-        ?>
-
     </div>
+    <?php include("navbar/navbar.php");?>
 </body>

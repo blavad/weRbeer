@@ -7,6 +7,8 @@ class Utilisateur
     protected $dateNaissance;
     protected $sexe;
     protected $url_photo;
+    protected $nom;
+    protected $prenom;
 
     
     public function __construct($id, $pseudo, $dateNaissance="01/01/2000", $sexe="Unknown", $url_photo="photo_marion.png")
@@ -19,9 +21,24 @@ class Utilisateur
 
     }
 
+    public function getNom()
+    {
+        return "Schaeff";
+    }
+
+    public function getPrenom()
+    {
+        return "Mar";
+    }
+
     public function getPseudo()
     {
         return $this->pseudo;
+    }
+
+    public function getDateNaissance()
+    {
+        return $this->dateNaissance;
     }
 
     public function getId()
@@ -38,9 +55,9 @@ class Utilisateur
     {
         echo
             "<div >
-                <div >" . $this->afficherPhoto(200, 200) . "</div>
-                <h2> " . $this->getPseudo() . "</h2>
-                <h2> ".$this->getId()."</h2>
+                <div >" . $this->afficherPhoto(150, 150) . "</div>
+                <h2> " . $this -> getNom() . $this->getPrenom() . "(" . $this->getPseudo() . ")" . "</h2>
+                <h3> " . $this->getDateNaissance() . " </h3>
             </div>";
     }
 
