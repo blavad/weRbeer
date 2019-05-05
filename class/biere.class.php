@@ -1,4 +1,5 @@
 <?php
+require_once('class/gestionBD.class.php');
 
 class Biere
 {
@@ -99,6 +100,7 @@ class Biere
 
     public function afficherBiere()
     {
+        $bd = new GestionBD();
         echo
             "<article class='blocApercu'>
         <div class='blocImage'>";
@@ -112,7 +114,13 @@ class Biere
         <h2 id='text_alco'>" . $this->getDegre() . " % Vol</h2>
         </div>";
         echo " <span style='color:red; font : bold; font-size:14px;margin-left : 40px;'> <br>" . $this->getMoyenne() . "</span>/5 (" . $this->getNbAvis() . " avis) ";
-        echo "<div id='buttonCommentaire' style='margin-top:5px;'> Appelation : " . $this->getType() . " <br> Mode de Fabrication : " . $this->getMF() . " <br> Marque : " . $this->getMarque() . " </div> 
+        echo "<div id='buttonCommentaire' style='margin-top:5px;'> 
+        Appelation : " . $this->getType() . " 
+        <br> 
+        Mode de Fabrication : <span style='cursor:default;' title='".$bd->getMFDescription($this->getMF())['description']."'>" . $this->getMF() . "</span> 
+        <br> ";
+        $mar = $bd->getMarqueInfos($this->getMarque());
+        echo "<span style='cursor:default;' title='Créée en ".$mar['annee']." à ".$mar['lieu']."'>Marque : " . $this->getMarque() . "</span> </div> 
         </div>
         </article>";
     }

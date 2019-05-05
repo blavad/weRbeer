@@ -33,28 +33,32 @@ session_start();
             $prof_u = $_SESSION["util"];
         } else {
             if (isset($_GET['idSupp'])) {
-                $bd->supprimerAmi($_GET['id'], $_GET['idSupp']);
+                if ($bd->isAllowed($_SESSION["util"]->getId(), $_GET['idSupp'])) {
+                    $bd->supprimerAmi($_SESSION['util']->getId(), $_GET['idSupp']);
+                }
             }
             if (isset($_GET['idAdd'])) {
-                $bd->addAmi($_GET['id'], $_GET['idAdd']);
+                if (!$bd->isAllowed($_SESSION["util"]->getId(), $_GET['idAdd'])) {
+                    $bd->addAmi($_SESSION['util']->getId(), $_GET['idAdd']);
+                }
             }
             $prof_u = $bd->getUtilisateur($_GET["id"]);
         }
         if ($bd->isAllowed($_SESSION["util"]->getId(), $prof_u->getId())) {
-            $prof_u->afficherInfo(true); ?>
+            $prof_u->afficherInfo(true, $_SESSION["util"]->getId()); ?>
             <a href=<?php echo "'cave.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu leftSide'>
-                <h3 id="ut"> <img src='img/logo_alco2.gif'  alt='' width='40px' height='40px'> Cave à bière </h3>
+                <h3 id="ut"> <img src='img/logo_alco2.gif' alt='' width='40px' height='40px'> Cave à bière </h3>
             </a>
 
-            <a href=<?php echo "'amis.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu rightSide'>
-                <h3 id="ut"> <img src='img/photoProf.png'  alt='' width='40px' height='40px'> Liste d'amis </h3>
+            <a href=<?php echo "'listeamis.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu rightSide'>
+                <h3 id="ut"> <img src='img/photoProf.png' alt='' width='40px' height='40px'> Liste d'amis </h3>
             </a>
         <?php
     } else {
-        $prof_u->afficherInfo(false);
+        $prof_u->afficherInfo(false, $_SESSION["util"]->getId());
     }
     ?>
 
     </div>
-    <?php include("navbar/navbar.php");?>
+    <?php include("navbar/navbar.php"); ?>
 </body>

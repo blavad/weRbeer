@@ -60,14 +60,18 @@ session_start();
                         <select class='option_recherche' name="tri">
                             <option value=""> -- Choisissez une option --</option>
                             <option value="b.nomB">Ordre alphabétique</option>
-                            <option value="a.note">Note : ordre croissant</option>
-                            <option value="a.note DESC">Note : ordre décroissant</option>
+                            <option value="b.noteMoyenne DESC">Les meilleures</option>
+                            <option value="b.noteMoyenne">Les pires</option>
+                            <option value="b.alcoolemie DESC">Les plus alcoolisées</option>
+                            <option value="b.alcoolemie">Les moins alcoolisées</option>
                         </select>
                         <br />
                         <hr />
                         <label for=""> Selection avancée : </label>
                         <br />
                         <br />
+                        <input class="option_recherche" placeholder=" Nom bière" name="nomB" type="text" size="20" value="" />
+
                         <select class='option_recherche' name="type">
                             <option value=""> -- Type --</option>
                             <?php
@@ -105,6 +109,7 @@ session_start();
                 $type = "%";
                 $mf = "%";
                 $marque = "%";
+                $nomB = "%";
                 $tri = "";
                 if (isset($_GET['type']) && $_GET['type'] != "") {
                     $type = $_GET['type'];
@@ -115,10 +120,13 @@ session_start();
                 if (isset($_GET['mf']) && $_GET['mf'] != "") {
                     $mf = $_GET['mf'];
                 }
+                if (isset($_GET['nomB']) && $_GET['nomB'] != "") {
+                    $nomB = $_GET['nomB'];
+                }
                 if (isset($_GET['tri']) && $_GET['tri'] != "") {
                     $tri = "ORDER BY " . $_GET['tri'];
                 }
-                $cave_u = $bd->getCave($_GET['id'], $type, $mf, $marque, $tri);
+                $cave_u = $bd->getCave($_GET['id'], $type, $mf, $marque, $nomB, $tri);
                 echo "<h3>" . sizeof($cave_u) . " Résultats </h3>";
                 for ($i = 0; $i < sizeof($cave_u); $i++) {
                     $cave_u[$i]->afficherAvis($_SESSION["util"]->getId() == $_GET['id']);

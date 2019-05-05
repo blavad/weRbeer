@@ -17,12 +17,12 @@ $array = [];
 $i = 0;
 
 if (!isset($_SESSION['admin'])) {
-    $req = $bd->prepare('SELECT * FROM Utilisateur WHERE pseudo LIKE :term ORDER BY pseudo');
+    $req = $bd->prepare('SELECT * FROM Utilisateur WHERE pseudo LIKE :term OR prenom LIKE :term OR nom LIKE :term ORDER BY prenom, nom, pseudo');
     $req->execute(array('term' => $term . '%'));
 
     while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
-        $label = $donnee['pseudo'] . ' -- ' . $donnee['idU'];
-        $u = array('type' => "u", 'value' => $donnee['idU'], 'label' => $label, 'icon' => 'photoU/' . $donnee['urlPhoto']);
+        $label = $donnee['prenom'] . ' ' . $donnee['nom'].' ('.$donnee['pseudo'].')';
+        $u = array('type' => "u", 'value' => $donnee['idU'], 'label' => $label, 'icon' => 'user/'.$donnee['pseudo'].'/'. $donnee['urlPhoto']);
         array_push($array, $u);
         $i++;
     }
@@ -40,7 +40,7 @@ while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
     $i++;
 }
 
-$label = "Autre ...";
+$label = "Autres bières...";
 $u = array('type' => "o", 'value' => "", 'label' => $label, 'icon' => 'img/plus.png');
 array_push($array, $u);
 
