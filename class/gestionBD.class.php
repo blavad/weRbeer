@@ -161,7 +161,7 @@ class GestionBD
 
     function getAmis($id, $partName)
     {
-        $req = $this->bd->prepare("SELECT idU2 FROM relation r, Utilisateur u WHERE r.idU1=? AND r.idU2=u.idU AND u.pseudo LIKE '%" . $partName . "%' ORDER BY u.pseudo ;");
+        $req = $this->bd->prepare("SELECT idU2 FROM relation r, Utilisateur u WHERE r.idU1=? AND r.idU2=u.idU AND (u.prenom LIKE '" . $partName . "%' OR u.nom LIKE '" . $partName . "%' OR u.pseudo LIKE '" . $partName . "%') ORDER BY u.prenom, u.nom, u.pseudo ;");
         $req->execute(array($id));
 
         $amis = array();
