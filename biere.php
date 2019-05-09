@@ -1,6 +1,7 @@
 <?php
 require_once('class/utilisateur.class.php');
 require_once('class/biere.class.php');
+require_once('class/gestionBD.class.php');
 session_start();
 ?>
 
@@ -9,7 +10,7 @@ session_start();
 <html>
 
 <head>
-    <title>weRbeer -- Biere</title>
+    <title>Profil</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <link rel="stylesheet" type="text/css" href="style.css" media="all" />
@@ -27,17 +28,23 @@ session_start();
 
     <div class='main-content'>
         <?php
-        $prof_u = NULL;
-        if ($_GET["id"] == $_SESSION["util"]->getId()) {
-            $prof_u = $_SESSION["util"];
-        } else {
-            $prof_u = new Utilisateur($_GET["id"], "Marion", "img/prof.png");
-            // $prof_u = $gbd -> getUtilisateur($_GET["id"]);        
-        }
+        if (isset($_SESSION['util'])) {
+            $bd = new GestionBD();
 
-	$CDT = new Biere("Cuvée des Trolls", 7.0, "img/cdt.png");
-        $CDT->afficherInfo();
-        $CDT->noter();
+            if (isset($_POST['note'])) {
+                $bd->addAvis($_SESSION['util']->getID(), $_GET['nomB'], $_POST['note'], $_POST['com']);
+            }
+            $CDT = $bd->getBiere($_GET['nomB']);
+
+            $CDT->afficherInfo();
+
+            if (!($bd->dejaAjouter($_GET['nomB'], $_SESSION['util']->getID()))) {
+                $CDT->noter();
+            }
+        }
         ?>
     </div>
+    <?php
+    include("navbar/navbar.php");
+    ?>
 </body>

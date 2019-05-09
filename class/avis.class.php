@@ -57,7 +57,7 @@ class Avis
                 }
         echo "
         <div class='blocDescription'>
-        <a href='bieres.php?id=" . $this->getBiere()->getNom() . "' id='descriptionTitle'> " . $this->getBiere()->getNom() .  "</a>";
+        <a href='biere.php?nomB=" . $this->getBiere()->getNom() . "' id='descriptionTitle'> " . $this->getBiere()->getNom() .  "</a>";
         echo " (<span style='color:red; font : bold;'>" . $this->getNote() . "</span>/5)";
         echo "<div id='buttonCommentaire'> Commentaire... <div id='blocCommentaire'>" . $this->getCommentaire() . " </div></div> 
         </div>

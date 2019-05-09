@@ -17,17 +17,33 @@ require_once('class/gestionBD.class.php');
 
 </head>
 
-<body>
+<?php
+include("header/header.php");
+?>
+
+<div class='main-content'>
     <?php
-    include("header/header.php");
-    ?> 
-    <div class="main-content">
-        <h1> Site bière</h1>
+    $listeamis_u = NULL;
+    $bd = new GestionBD();
+    if (isset($_SESSION['util'])) {
+
+        $nb_max_actus = 20;
+        if (isset($_POST["nb_actus"])){
+            $nb_max_actus = $_POST["nb_actus"];
+        }
+
+        $actus = $bd->getActualites($_SESSION['util']->getId(), $nb_max_actus);
         
-    </div>
-    <?php 
-    include("navbar/navbar.php");
+        echo "<h1> Fil d'actualités </h1>"; 
+        for ($i = 0; $i < sizeof($actus); $i++) {
+            //$listeamis_u[$i]->afficherAmis($_SESSION["util"]->getId() == $_GET['id'], $_SESSION["util"]->getId());
+        }
+    }
     ?>
+
+</div>
+
+<?php include("navbar/navbar.php"); ?>
 </body>
 
 </html>

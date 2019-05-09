@@ -159,7 +159,7 @@ class GestionBD
         return $util;
     }
 
-    function getAmis($id, $partName)
+    function getAmis($id, $partName="%")
     {
         $req = $this->bd->prepare("SELECT idU2 FROM relation r, Utilisateur u WHERE r.idU1=? AND r.idU2=u.idU AND (u.prenom LIKE '" . $partName . "%' OR u.nom LIKE '" . $partName . "%' OR u.pseudo LIKE '" . $partName . "%') ORDER BY u.prenom, u.nom, u.pseudo ;");
         $req->execute(array($id));
@@ -242,10 +242,13 @@ class GestionBD
     {
         $req = $this->bd->prepare("SELECT * FROM Biere WHERE nomB = ?;");
         $req->execute(array($nomBiere));
-
         $donnees = $req->fetch();
-
         $biere = new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto']);
+        
+        $req = $this->bd->prepare("SELECT COUNT(*) FROM avis WHERE nomB = ?;");
+        $req->execute(array($nomBiere));
+        $donnees = $req->fetch();
+        $biere->setNbAvis($donnees['COUNT(*)']);
         $req->closeCursor();
 
         return $biere;
@@ -307,12 +310,10 @@ class GestionBD
     function getActualites($id, $nombre)
     {
         $req = $this->bd->prepare("SELECT a.idU , a.nomB, a.note, a.commentaire FROM relation r, avis a WHERE a.idU=r.idU2 AND r.idU1=? LIMIT ?;");
-
         $req->execute(array($id, $nombre));
-
         $actu = array();
         while ($donnees = $req->fetch()) {
-            // $actu[] = new getUtilsateur($donnees['idU2']);
+            $actusAjoutBieres[] = new getUtilsateur($donnees['idU2']);
         }
         $req->closeCursor();
 
@@ -394,5 +395,11 @@ class GestionBD
             ));
         }
         return array('erreur' => $err, 'errMessage' => $errMessage);
+    }
+
+    function dejaAjouter($nomB,$idU){
+        $req = $this->bd->prepare("SELECT * FROM avis WHERE nomB = ? AND idU = ?;");
+        $req->execute(array($nomB, $idU));
+        return $req->fetch();
     }
 }

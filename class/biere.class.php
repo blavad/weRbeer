@@ -66,6 +66,10 @@ class Biere
         return "photoB/" . $this->url_photo;
     }
 
+    public function setNbAvis($nbA){
+        $this->nbAvis = $nbA;
+    }
+
     public function afficherInfo()
     {
         echo
@@ -75,7 +79,9 @@ class Biere
 				<div id='infoBiere'>
 					Alcoolémie : " . $this->getDegre() . "% <br>
 					Note moyenne : " . $this->getMoyenne() . "/20 (" . $this->getNbAvis() . " avis) <br>
-					
+					Marque : " . $this->getMarque() . " <br/>
+					Fabrication : " . $this->getMF() . " <br/>
+					Appelation : " . $this->getType() . " <br/>
 				</div>
             </div>";
     }
@@ -83,12 +89,12 @@ class Biere
     public function noter()
     {
         echo
-            "<form>
-				<div id='blockNote' class='centerPart' font-weight='bold'>
-					<div style='margin-left:70px'><b>Note : <b/> <input style='width:80px'type='number' min='0' max='5' step='0.5' value='5' name='note'/> </div><br>
-					<div><textarea style='margin-left:50px' name='com'></textarea> </div><br>
-					<input style='margin-left:110px' type='submit' value='Ajouter'/>
-				</div>
+            "<form method='POST' action='biere.php?nomB=".$this->getNom()."'>
+				<fieldset id='blockNote' class='centerPart'>
+					<input style='width:36%;margin-left:32%' type='number' min='0' max='5' step='0.1' value='5' name='note'/><br />
+					<textarea style='width:90%;margin-left:5%' name='com'></textarea><br/>
+					<input style='width:50%;margin-left:25%' type='submit' value='Ajouter'/>
+				</fieldset>
 			</form>";
     }
 
@@ -98,11 +104,11 @@ class Biere
             "<img src='" . $this->getUrl_photo() . "' width='" . $width . "px' height='" . $height . "px'>";
     }
 
-    public function initAffichageAuClic($idBalise="",$msg="Aucun message")
+    public function initAffichageAuClic($idBalise = "", $msg = "Aucun message")
     {
         echo  "<script>
             $(document).ready(function () {
-                $('.".$idBalise."').click(function () {
+                $('." . $idBalise . "').click(function () {
                     
                 });
             });
@@ -112,7 +118,7 @@ class Biere
     public function afficherBiere()
     {
         $bd = new GestionBD();
-        $this->initAffichageAuClic($this->getMF(),htmlspecialchars($bd->getMFDescription($this->getMF())['description']));
+        $this->initAffichageAuClic($this->getMF(), htmlspecialchars($bd->getMFDescription($this->getMF())['description']));
         echo
             "<article class='blocApercu'>
         <div class='blocImage'>";
@@ -121,7 +127,7 @@ class Biere
         </div>";
         echo "
         <div class='blocDescription'>
-        <a href='bieres.php?id=" . $this->getNom() . "' id='descriptionTitle'> " . htmlspecialchars($this->getNom()) .  "</a>";
+        <a href='biere.php?nomB=" . $this->getNom() . "' id='descriptionTitle'> " . htmlspecialchars($this->getNom()) .  "</a>";
         echo "<div id='logo_alco'><img src='http://www.gifsanimes.com/data/media/331/biere-image-animee-0035.gif' border='0' alt='' />
         <h2 id='text_alco'>" . htmlspecialchars($this->getDegre()) . " % Vol</h2>
         </div>";
@@ -129,7 +135,7 @@ class Biere
         echo "<div class='buttonCommentaire' style='margin-top:5px;'> 
         Appelation : " . htmlspecialchars($this->getType()) . " 
         <br> 
-        Mode de Fabrication : <span class='".$this->getMF()."' style='cursor:pointer;' title='" . htmlspecialchars($bd->getMFDescription($this->getMF())['description']) . "'>" . htmlspecialchars($this->getMF()) . "</span> 
+        Mode de Fabrication : <span class='" . $this->getMF() . "' style='cursor:pointer;' title='" . htmlspecialchars($bd->getMFDescription($this->getMF())['description']) . "'>" . htmlspecialchars($this->getMF()) . "</span> 
         
         <br> ";
         $mar = $bd->getMarqueInfos($this->getMarque());
