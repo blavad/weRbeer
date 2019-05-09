@@ -74,7 +74,7 @@ session_start();
                 }
                 echo "<h3>" . sizeof($listeamis_u) . " Résultats </h3>";
                 for ($i = 0; $i < sizeof($listeamis_u); $i++) {
-                    $listeamis_u[$i]->afficherAmis($_SESSION["util"]->getId() == $_GET['id'], $_SESSION["util"]->getId());
+                    $listeamis_u[$i]->afficherAmis($_SESSION["util"]->getId() == $_GET['id'] && !isset($_GET['choix']), $_SESSION["util"]->getId());
                 }
             }
         }

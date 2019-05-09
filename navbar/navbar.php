@@ -8,6 +8,6 @@
 		<li> <a href="cave.php?id=<?php echo $_SESSION['util']->getId();?> ">Ma cave</a> </li>
 
 		<li> <a href="listeamis.php?id=<?php echo $_SESSION['util']->getId();?>">Mes amis</a> </li>
-		<li> <a href="param.php">Paramètres</a> </li>
+		<li> <a href="parametres.php">Paramètres</a> </li>
 	</ul>
 </nav>

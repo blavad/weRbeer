@@ -10,9 +10,15 @@ function messageResultatAjout($msg, $echec = true)
 {
   $color = ($echec) ? "red" : "green";
   return "<div class='max-width' style='position: fixed; background:" . $color . "; color : white; bottom:0; text-align:center;'> 
-            Résultat ajout : " . $msg . " </div>";
+            " . $msg . " </div>";
 }
 
+// Gère le suppression de compte
+if (isset($_POST['suppCompte'])) {
+  $bd->supprimerCompte($_SESSION['util']->getId());
+  $_SESSION['util'] = NULL;
+  $_SESSION['admin'] = NULL;
+}
 // Gère la déconnexion
 if (isset($_GET['deconnect'])) {
   $_SESSION['util'] = NULL;
@@ -25,15 +31,15 @@ if (isset($_SESSION['util'])) {
     $msg = "";
     if (isset($_POST['nomB'])) {
       $ajoutB = $bd->addBiere($_POST, $_FILES);
-      $msg = messageResultatAjout($ajoutB['errMessage'], $ajoutB['erreur']);
+      $msg = messageResultatAjout("Résultat ajout : " . $ajoutB['errMessage'], $ajoutB['erreur']);
     }
     if (isset($_POST['nomMar'])) {
       $ajoutMar = $bd->addMarque($_POST);
-      $msg = messageResultatAjout($ajoutMar['errMessage'], $ajoutMar['erreur']);
+      $msg = messageResultatAjout("Résultat ajout : " . $ajoutMar['errMessage'], $ajoutMar['erreur']);
     }
     if (isset($_POST['ville'])) {
       $ajoutLieu = $bd->addLieu($_POST);
-      $msg = messageResultatAjout($ajoutLieu['errMessage'], $ajoutLieu['erreur']);
+      $msg = messageResultatAjout("Résultat ajout : " . $ajoutLieu['errMessage'], $ajoutLieu['erreur']);
     }
     include('ajoutBiere.php');
     echo $msg;
@@ -56,7 +62,7 @@ if (isset($_SESSION['util'])) {
         }
       } else {
         include("connexion.html");
-        echo "<div class='max-width' style='position: fixed; background:red; color : white; bottom:0; text-align:center;'> Erreur d'inscription " . $inscr['errMessage'] . " </div>";
+        echo messageResultatAjout("Erreur d'inscription : " . $inscr['errMessage'], $inscr['erreur']);
       }
     } else {
       // Connexion administrateur
@@ -72,7 +78,7 @@ if (isset($_SESSION['util'])) {
           include("actu.php");
         } else {
           include("connexion.html");
-          echo "<div class='max-width' style='position: fixed; background:red; color : white; bottom:0; text-align:center;'> Erreur lors de la connexion </div>";
+          echo messageResultatAjout("Identifiant ou mot de passe incorrect. ", true);
         }
       }
     }

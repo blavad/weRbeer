@@ -20,91 +20,6 @@ class GestionBD
         }
     }
 
-    function connexion($pseudo, $mdp)
-    {
-        $req = $this->bd->prepare("SELECT idU, mdp FROM Utilisateur WHERE pseudo = ?;");
-        $req->execute(array($pseudo));
-
-        $req_mdp = $req->fetch();
-        $req->closeCursor();
-
-        $res = array($req_mdp['idU'], $req_mdp['mdp'] == $mdp);
-
-        return $res;
-    }
-
-    function inscrire($data, $file)
-    {
-        $errMessage = "Inscription réussie";
-        $err = false;
-        $target_dir = "user/" . $data["identifiant"];
-
-        // Check si le pseudo est déjà utilisé
-        if (is_dir($target_dir)) {
-            $errMessage = "Identifiant déjà existant";
-            $err = true;
-        } else {
-            $target_file = $target_dir . "/" . basename($file["maPhoto"]["name"]);
-            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-            // Check si une image a été choisie
-            if ($file["maPhoto"]["name"] != "") {
-                // Check si l'image est correct
-                if (isset($data["submit"])) {
-                    $check = getimagesize($file["maPhoto"]["tmp_name"]);
-                    if ($check !== false) {
-                        $err = false;
-                    } else {
-                        $errMessage = "Image incorrect";
-                        $err = true;
-                    }
-                }
-
-                // Check si le fichier existe déjà
-                if (file_exists($target_file)) {
-                    $errMessage = "Fichier image déjà existant";
-                    $err = true;
-                }
-                // Check la dimension de l'image
-                if ($file["maPhoto"]["size"] > 30000000) {
-                    $errMessage = "Fichier image trop gros";
-                    $err = true;
-                }
-                // Check le bon format de l'image
-                if (
-                    $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                    && $imageFileType != "gif"
-                ) {
-                    $errMessage = "Format fichier incorrect";
-                    $err = true;
-                }
-            }
-            // Si pas d'erreur on crée le dossier utilisateur et on ajoute la photo
-            if (!$err) {
-                mkdir($target_dir);
-                $urlPhoto = "";
-                if ($file["maPhoto"]["name"] == "") {
-                    $urlPhoto = "photoProf.png";
-                    $target_file = $target_dir . "/" . $urlPhoto;
-                    copy("img/photoProf.png", $target_file);
-                } else {
-                    $urlPhoto = $file["maPhoto"]["name"];
-                    move_uploaded_file($file["maPhoto"]["tmp_name"], $target_file);
-                }
-                $req = $this->bd->prepare('INSERT INTO Utilisateur(nom,prenom,pseudo,mdp, dateNaissance, urlPhoto, sexe) VALUES(:nom, :prenom,:pseudo, :mdp, :dateNaissance, :urlPhoto, :sexe)');
-                $req->execute(array(
-                    'nom' => $data['name'],
-                    'prenom' => $data['surname'],
-                    'pseudo' => $data['identifiant'],
-                    'mdp' => $data['mdp'],
-                    'dateNaissance' => $data['dateNaissance'],
-                    'urlPhoto' => $urlPhoto,
-                    'sexe' => $data['sexe']
-                ));
-            }
-        }
-        return array('erreur' => $err, 'errMessage' => $errMessage);
-    }
 
     function addBiere($data, $file)
     {
@@ -312,7 +227,6 @@ class GestionBD
 
     function supprimerAvis($mon_id, $nomBiere)
     {
-        echo "DELETE " . $mon_id . " " . $nomBiere;
         $req = $this->bd->prepare('DELETE FROM avis WHERE idU=:idU AND nomB=:nomB');
         $req->execute(array(
             'idU' => $mon_id,
@@ -343,7 +257,7 @@ class GestionBD
         }
         $req->closeCursor();
 
-        $actu = array('avis'=>$actusAjoutBieres, 'ami'=>$actusAjoutAmis);
+        $actu = array('avis' => $actusAjoutBieres, 'ami' => $actusAjoutAmis);
         return $actu;
     }
 
@@ -429,5 +343,182 @@ class GestionBD
         $req = $this->bd->prepare("SELECT * FROM avis WHERE nomB = ? AND idU = ?;");
         $req->execute(array($nomB, $idU));
         return $req->fetch();
+    }
+
+
+
+
+    // GESTION DE L'INSCRIPTION ET DES MISES A JOUR DES DONNEES UTILISATEUR
+
+    function connexion($pseudo, $mdp)
+    {
+        $req = $this->bd->prepare("SELECT idU, mdp FROM Utilisateur WHERE pseudo = ?;");
+        $req->execute(array($pseudo));
+
+        $req_mdp = $req->fetch();
+        $req->closeCursor();
+
+        $res = array($req_mdp['idU'], $req_mdp['mdp'] == $mdp);
+
+        return $res;
+    }
+
+    function inscrire($data, $file)
+    {
+        $errMessage = "Inscription réussie";
+        $err = false;
+        $target_dir = "user/" . $data["identifiant"];
+
+        // Check si le pseudo est déjà utilisé
+        if (is_dir($target_dir)) {
+            $errMessage = "Identifiant déjà existant";
+            $err = true;
+        } else {
+            $target_file = $target_dir . "/" . basename($file["maPhoto"]["name"]);
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+            // Check si une image a été choisie
+            if ($file["maPhoto"]["name"] != "") {
+                // Check si l'image est correct
+                if (isset($data["submit"])) {
+                    $check = getimagesize($file["maPhoto"]["tmp_name"]);
+                    if ($check !== false) {
+                        $err = false;
+                    } else {
+                        $errMessage = "Image incorrect";
+                        $err = true;
+                    }
+                }
+
+                // Check si le fichier existe déjà
+                if (file_exists($target_file)) {
+                    $errMessage = "Fichier image déjà existant";
+                    $err = true;
+                }
+                // Check la dimension de l'image
+                if ($file["maPhoto"]["size"] > 30000000) {
+                    $errMessage = "Fichier image trop gros";
+                    $err = true;
+                }
+                // Check le bon format de l'image
+                if (
+                    $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif"
+                ) {
+                    $errMessage = "Format fichier incorrect";
+                    $err = true;
+                }
+            }
+            // Si pas d'erreur on crée le dossier utilisateur et on ajoute la photo
+            if (!$err) {
+                mkdir($target_dir);
+                $urlPhoto = "";
+                if ($file["maPhoto"]["name"] == "") {
+                    $urlPhoto = "photoProf.png";
+                    $target_file = $target_dir . "/" . $urlPhoto;
+                    copy("img/photoProf.png", $target_file);
+                } else {
+                    $urlPhoto = $file["maPhoto"]["name"];
+                    move_uploaded_file($file["maPhoto"]["tmp_name"], $target_file);
+                }
+                $req = $this->bd->prepare('INSERT INTO Utilisateur(nom,prenom,pseudo,mdp, dateNaissance, urlPhoto, sexe) VALUES(:nom, :prenom,:pseudo, :mdp, :dateNaissance, :urlPhoto, :sexe)');
+                $req->execute(array(
+                    'nom' => $data['name'],
+                    'prenom' => $data['surname'],
+                    'pseudo' => $data['identifiant'],
+                    'mdp' => $data['mdp'],
+                    'dateNaissance' => $data['dateNaissance'],
+                    'urlPhoto' => $urlPhoto,
+                    'sexe' => $data['sexe']
+                ));
+            }
+        }
+        return array('erreur' => $err, 'errMessage' => $errMessage);
+    }
+
+    function modifierMDP($id, $old_mdp, $new_mdp)
+    {
+        $req = $this->bd->prepare("SELECT u.mdp FROM Utilisateur u WHERE u.idU = ?;");
+        $req->execute(array($id));
+        $old = $req->fetch()['mdp'];
+        if ($old == $old_mdp) {
+            $req = $this->bd->prepare("UPDATE Utilisateur u SET u.mdp=:newMDP WHERE u.idU =:idU;");
+            $req->execute(array(
+                'newMDP' => $new_mdp,
+                'idU' => $id
+            ));
+            return array('erreur' => false, 'errMessage' => "Mot de passe mis à jour.");
+        } else {
+            return array('erreur' => true, 'errMessage' => "Mot de passe incorrect.");
+        }
+    }
+
+    function modifierPhoto($id, $file)
+    {
+        $err = false;
+        $u = $this->getUtilisateur($id);
+        $target_dir = "user/" . $u->getPseudo();
+        $target_file = $target_dir . "/" . basename($file["name"]);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        // Check si une image a été choisie
+        if ($file["name"] != "") {
+            // Check si l'image est correct
+            $check = getimagesize($file["tmp_name"]);
+            if ($check !== false) {
+                $err = false;
+            } else {
+                $errMessage = "Image incorrect";
+                $err = true;
+            }
+
+            // Check si le fichier existe déjà
+            if (file_exists($target_file)) {
+                $errMessage = "Nom de fichier image déjà existant";
+                $err = true;
+            }
+            // Check la dimension de l'image
+            if ($file["size"] > 30000000) {
+                $errMessage = "Fichier image trop gros";
+                $err = true;
+            }
+            // Check le bon format de l'image
+            if (
+                $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif"
+            ) {
+                $errMessage = "Format fichier incorrect";
+                $err = true;
+            }
+        }
+
+        if (!$err) {
+            $urlPhoto = $file["name"];
+            move_uploaded_file($file["tmp_name"], $target_file);
+            $req = $this->bd->prepare('UPDATE Utilisateur u SET u.urlPhoto=:newURL WHERE u.idU =:idU;');
+            $req->execute(array(
+                'newURL' => $urlPhoto,
+                'idU' => $id
+            ));
+        }
+        return array('erreur' => $err, 'errMessage' => $errMessage);
+    }
+
+
+    function supprimerCompte($id)
+    {
+        $req = $this->bd->prepare('DELETE FROM avis WHERE idU=:idU');
+        $req->execute(array(
+            'idU' => $id
+        ));
+
+        $req = $this->bd->prepare('DELETE FROM relation WHERE idU1=:idU OR idU2=:idU');
+        $req->execute(array(
+            'idU' => $id
+        ));
+
+        $req = $this->bd->prepare('DELETE FROM Utilisateur WHERE idU=:idU');
+        $req->execute(array(
+            'idU' => $id
+        ));
     }
 }
