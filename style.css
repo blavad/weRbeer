@@ -101,6 +101,7 @@ div#infoBiere {
 .blocApercu {
     background: rgba(255, 243, 137, 0.8);
     border: rgb(82, 74, 74) solid 2px;
+    border-radius: 20px;
     margin: 10px 0px 20px 0px;
     padding: 15px 15px 15px 30px;
     overflow: hidden;
@@ -115,6 +116,20 @@ div#infoBiere {
     margin-right: 30px;
     width: 80%;
 }
+
+.titre_actu {
+    text-align : center;
+}
+
+.actu_block {
+    background: rgba(201, 202, 255, 0.8);
+    border: rgb(0, 0, 0) solid 2px;
+    border-radius: 20px;
+    margin: 10px 0px 20px 0px;
+    padding: 0px 20px 0px 20px;
+    overflow: hidden;
+}
+
 
 #buttonCommentaire {
     color: #003764;

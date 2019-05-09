@@ -159,7 +159,7 @@ class GestionBD
         return $util;
     }
 
-    function getAmis($id, $partName="%")
+    function getAmis($id, $partName = "%")
     {
         $req = $this->bd->prepare("SELECT idU2 FROM relation r, Utilisateur u WHERE r.idU1=? AND r.idU2=u.idU AND (u.prenom LIKE '" . $partName . "%' OR u.nom LIKE '" . $partName . "%' OR u.pseudo LIKE '" . $partName . "%') ORDER BY u.prenom, u.nom, u.pseudo ;");
         $req->execute(array($id));
@@ -173,7 +173,8 @@ class GestionBD
         return $amis;
     }
 
-    function getRelations($id, $partName="%"){
+    function getRelations($id, $partName = "%")
+    {
         $req = $this->bd->prepare("SELECT idU1 FROM relation r, Utilisateur u WHERE r.idU1=u.idU AND r.idU2=? AND (u.prenom LIKE '" . $partName . "%' OR u.nom LIKE '" . $partName . "%' OR u.pseudo LIKE '" . $partName . "%') ORDER BY u.prenom, u.nom, u.pseudo ;");
         $req->execute(array($id));
 
@@ -257,7 +258,7 @@ class GestionBD
         $req->execute(array($nomBiere));
         $donnees = $req->fetch();
         $biere = new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto']);
-        
+
         $req = $this->bd->prepare("SELECT COUNT(*) FROM avis WHERE nomB = ?;");
         $req->execute(array($nomBiere));
         $donnees = $req->fetch();
@@ -322,14 +323,27 @@ class GestionBD
     // A finir 
     function getActualites($id, $nombre)
     {
-        $req = $this->bd->prepare("SELECT a.idU , a.nomB, a.note, a.commentaire FROM relation r, avis a WHERE a.idU=r.idU2 AND r.idU1=? LIMIT ?;");
-        $req->execute(array($id, $nombre));
-        $actu = array();
+        // Récupération des actus relatifs aux derniers avis ajoutés
+        $actusAjoutBieres = array();
+        $req = $this->bd->prepare("SELECT * FROM relation r, avis a, Biere b WHERE b.nomB=a.nomB AND a.idU=r.idU2 AND r.idU1=:idU;");
+        $req->execute(array(
+            'idU' => $id
+        ));
         while ($donnees = $req->fetch()) {
-            $actusAjoutBieres[] = new getUtilsateur($donnees['idU2']);
+            $actusAjoutBieres[] = new Avis($donnees['idU'], new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto']), $donnees['note'], $donnees['commentaire']);
         }
         $req->closeCursor();
 
+        // Récupération des actus relatifs aux derniers amis qui m'ont suivis     
+        $actusAjoutAmis = array();
+        $req = $this->bd->prepare("SELECT r.idU1 FROM relation r WHERE r.idU2=?;");
+        $req->execute(array($id));
+        while ($donnees = $req->fetch()) {
+            $actusAjoutAmis[] = $this->getUtilisateur($donnees['idU1']);
+        }
+        $req->closeCursor();
+
+        $actu = array('avis'=>$actusAjoutBieres, 'ami'=>$actusAjoutAmis);
         return $actu;
     }
 
@@ -410,7 +424,8 @@ class GestionBD
         return array('erreur' => $err, 'errMessage' => $errMessage);
     }
 
-    function dejaAjouter($nomB,$idU){
+    function dejaAjouter($nomB, $idU)
+    {
         $req = $this->bd->prepare("SELECT * FROM avis WHERE nomB = ? AND idU = ?;");
         $req->execute(array($nomB, $idU));
         return $req->fetch();

@@ -71,7 +71,7 @@ class Utilisateur
         echo "</div>";
     }
 
-    public function afficherAmis($supp = false, $myId)
+    public function afficherAmis($supp = false, $myId=NULL)
     {
         echo
             "<article class='blocApercu'>
