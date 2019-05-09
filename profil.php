@@ -45,13 +45,17 @@ session_start();
             $prof_u = $bd->getUtilisateur($_GET["id"]);
         }
         if ($bd->isAllowed($_SESSION["util"]->getId(), $prof_u->getId())) {
-            $prof_u->afficherInfo(true, $_SESSION["util"]->getId()); ?>
+            $prof_u->afficherInfo(true, $_SESSION["util"]->getId()); 
+            $cave_u = $bd->getCave($_GET['id']);?>
+
             <a href=<?php echo "'cave.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu leftSide'>
-                <h3 id="ut"> <img src='img/logo_alco2.gif' alt='' width='40px' height='40px'> Cave à bière </h3>
+                <h3 id="ut"> <img src='img/logo_alco2.gif' alt='' width='40px' height='40px'> Cave à bière (<?php echo sizeof($cave_u)?>) </h3>
             </a>
 
+            <?php $listeamis_u = $bd->getAmis($_GET['id'],$pseudo);?>  
+            <!--echo "<h3>" . sizeof($listeamis_u) . " Résultats </h3>"; -->
             <a href=<?php echo "'listeamis.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu rightSide'>
-                <h3 id="ut"> <img src='img/photoProf.png' alt='' width='40px' height='40px'> Liste d'amis </h3>
+                <h3 id="ut"> <img src='img/photoProf.png' alt='' width='40px' height='40px'> Liste d'amis (<?php echo sizeof($listeamis_u);?>) </h3>
             </a>
         <?php
     } else {
