@@ -10,13 +10,17 @@ class GestionBD
 
     public function __construct()
     {
-        $server = "127.0.0.1";
-        $username = "weRbeer";
+        $servername = "127.0.0.1";
+        $username = "weRbeer";//"id9515413_werbeer";
         $password = "frosties";
+        $database = "weRbeer";//"id9515413_werbeer";
+
         try {
-            $this->bd = new PDO('mysql:dbname=weRbeer;host=' . $server . ';charset=utf8;port=3306', $username, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        } catch (Exception $err) {
-            die('Erreur : ' . $err->getMessage());
+            $this -> bd = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+            // set the PDO error mode to exception
+            $this -> bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $e) {    
+            echo "Connection failed: " . $e->getMessage();
         }
     }
 
