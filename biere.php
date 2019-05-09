@@ -28,20 +28,20 @@ session_start();
 
     <div class='main-content'>
         <?php
-        if (isset($_SESSION['util'])) {
-            $bd = new GestionBD();
+        //if (isset($_SESSION['util'])) {
+            //$bd = new GestionBD();
 
-            if (isset($_POST['note'])) {
-                $bd->addAvis($_SESSION['util']->getID(), $_GET['nomB'], $_POST['note'], $_POST['com']);
-            }
-            $CDT = $bd->getBiere($_GET['nomB']);
-
+            //if (isset($_POST['note'])) {
+            //    $bd->addAvis($_SESSION['util']->getID(), $_GET['nomB'], $_POST['note'], $_POST['com']);
+            //}
+            //$CDT = $bd->getBiere($_GET['nomB']);
+			$CDT = new Biere("Cuvée des Trolls", "Brune", "Trituration", 7.0, 5.0, "Bachaga", "cdt.png", 100);
             $CDT->afficherInfo();
 
-            if (!($bd->dejaAjouter($_GET['nomB'], $_SESSION['util']->getID()))) {
+            //if (!($bd->dejaAjouter($_GET['nomB'], $_SESSION['util']->getID()))) {
                 $CDT->noter();
-            }
-        }
+			//}
+        //}
         ?>
     </div>
     <?php
