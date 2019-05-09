@@ -67,12 +67,17 @@ session_start();
                 if (isset($_GET['pseudo']) && $_GET['pseudo'] != "") {
                     $pseudo = $_GET['pseudo'];
                 }
-                $listeamis_u = $bd->getAmis($_GET['id'],$pseudo);
+                if(isset($_GET['choix'])){
+                    $choix=true;
+                    if($choix) $listeamis_u = $bd->getAmis($_GET['id'],$pseudo);
+                    else $listeamis_u = $bd->getRelations($_GET['id']);
+                }
                 
                 echo "<h3>" . sizeof($listeamis_u) . " Résultats </h3>";
                 for ($i = 0; $i < sizeof($listeamis_u); $i++) {
                     $listeamis_u[$i]->afficherAmis($_SESSION["util"]->getId() == $_GET['id'], $_SESSION["util"]->getId());
                 }
+                
             }
         }
                 ?>  

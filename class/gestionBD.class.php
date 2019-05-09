@@ -173,6 +173,19 @@ class GestionBD
         return $amis;
     }
 
+    function getRelations($id){
+        $req = $this->bd->prepare("SELECT idU1 FROM relation r, Utilisateur u WHERE r.idU1=u.idU AND r.idU2=? AND (u.prenom LIKE '" . $partName . "%' OR u.nom LIKE '" . $partName . "%' OR u.pseudo LIKE '" . $partName . "%') ORDER BY u.prenom, u.nom, u.pseudo ;");
+        $req->execute(array($id));
+
+        $amis = array();
+        while ($donnees = $req->fetch()) {
+            $amis[] = $this->getUtilisateur($donnees['idU1']);
+        }
+        $req->closeCursor();
+
+        return $amis;
+    }
+
     function addAmi($mon_id, $id_ami)
     {
         $req = $this->bd->prepare('INSERT INTO relation(idU1,idU2) VALUES(:idU1, :idU2)');
