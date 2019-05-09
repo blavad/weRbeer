@@ -89,11 +89,11 @@ class Biere
     public function noter()
     {
         echo
-            "<form method='POST' action='biere.php?nomB=".$this->getNom()."'>
-				<fieldset id='blockNote' class='centerPart'>
-					<input style='width:36%;margin-left:32%' type='number' min='0' max='5' step='0.1' value='5' name='note'/><br />
-					<textarea style='width:90%;margin-left:5%' name='com'></textarea><br/>
-					<input style='width:50%;margin-left:25%' type='submit' value='Ajouter'/>
+            "<form style='margin-top:-100px' method='POST' action='biere.php?nomB=".$this->getNom()."'>
+				<fieldset class='blockNote'>
+					<input class='note' type='number' min='0' max='5' step='0.1' value='5' name='note'/></br>
+					<textarea class='comNote' name='com'></textarea></br>
+					<input class='bouton' style='width:50%;margin-left:25%;margin-top:10px' type='submit' value='Ajouter'/></br>
 				</fieldset>
 			</form>";
     }

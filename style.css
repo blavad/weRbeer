@@ -36,8 +36,9 @@ header {
 }
 
 div#blockBiere {
-    width: 800px;
+    width: auto;
     height: 400px;
+    margin-top: 10px;
 }
 
 div#photoBiere {
@@ -47,9 +48,8 @@ div#photoBiere {
 }
 
 div#titreBiere {
-    float: right;
-    width: 600px;
-    height: 100px;
+    width: auto;
+    margin-left: 20%;
     font-size: 50px;
     color: black;
     font-weight: bold;
@@ -57,17 +57,34 @@ div#titreBiere {
 }
 
 div#infoBiere {
-    float: right;
-    width: 600px;
+    width: auto;
+    margin-left: 20%;
     height: 300px;
     font-size: 25px;
     color: black;
 }
 
-div#blockNote {
+.blockNote {
     width: 300px;
-    height: 200px;
-    border-color: black;
+    height: auto;
+    margin-left: 25%;
+}
+
+.comNote{
+	width: 90%;
+	height: 100px;
+	margin-left: 5%;
+	margin-top: 10px;
+	border-radius: 10px;
+	border: #003764 solid 4px;
+}
+
+.note{
+	width: 30%;
+	margin-left: 35%;
+	margin-top: 0px;
+	border: #003764 solid 2px;
+	border-radius:5px
 }
 
 #logo_alco {
