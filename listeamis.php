@@ -33,7 +33,7 @@ session_start();
     <?php
     include("header/header.php");
     ?>
-    
+
     <div class='main-content'>
         <?php
         $listeamis_u = NULL;
@@ -45,7 +45,7 @@ session_start();
                 }
                 $util = $bd->getUtilisateur($_GET['id']);
                 echo "<h1> Amis de " . $util->getPseudo() . " </h1>"; ?>
-                
+
                 <!-- Formulaire de recherche avancée  -->
                 <form method="get" action="listeamis.php">
                     <legend class="recherche" id='recherche'> <i class="glyphicon glyphicon-search"></i> Recherche avancée</legend>
@@ -54,7 +54,7 @@ session_start();
                         <label for="" class="rechercheNom">Recherche par pseudo : </label>
                         <br />
                         <br />
-                        <input class="option_recherche" placeholder="Saisissez le pseudo" id="pseudo" name="pseudo" type="text" size="30" value=""/>
+                        <input class="option_recherche" placeholder="Saisissez le pseudo" id="pseudo" name="pseudo" type="text" size="30" value="" />
                         <br />
                         <hr />
                         <input class="button_recherche" type="submit" value="Rechercher" />
@@ -67,18 +67,18 @@ session_start();
                 if (isset($_GET['pseudo']) && $_GET['pseudo'] != "") {
                     $pseudo = $_GET['pseudo'];
                 }
-                $listeamis_u = $bd->getAmis($_GET['id'],$pseudo);
-                
+                $listeamis_u = $bd->getAmis($_GET['id'], $pseudo);
+
                 echo "<h3>" . sizeof($listeamis_u) . " Résultats </h3>";
                 for ($i = 0; $i < sizeof($listeamis_u); $i++) {
                     $listeamis_u[$i]->afficherAmis($_SESSION["util"]->getId() == $_GET['id'], $_SESSION["util"]->getId());
                 }
             }
         }
-                ?>  
+        ?>
 
     </div>
-    <?php include("navbar/navbar.php");?>
+    <?php include("navbar/navbar.php"); ?>
 </body>
 
 </html>
