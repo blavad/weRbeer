@@ -25,6 +25,8 @@ session_start();
     include("header/header.php");
     ?>
 
+    <br>
+    <br>
     <div class='main-content'>
         <?php
         $prof_u = NULL;
@@ -45,27 +47,27 @@ session_start();
             $prof_u = $bd->getUtilisateur($_GET["id"]);
         }
         if ($bd->isAllowed($_SESSION["util"]->getId(), $prof_u->getId())) {
-            $prof_u->afficherInfo(true, $_SESSION["util"]->getId()); 
-            $cave_u = $bd->getCave($_GET['id']);?>
+            $cave_u = $bd->getCave($_GET['id']); ?>
 
-            <a href=<?php echo "'cave.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu leftSide'>
-                <h3 id="ut"> <img src='img/logo_alco2.gif' alt='' width='40px' height='40px'> Cave à bière (<?php echo sizeof($cave_u)?>) </h3>
-            </a>
-<<<<<<< HEAD
+            <?php
+            $prof_u->afficherInfo(true, $_SESSION["util"]->getId());
+            ?>
 
-            <?php $listeamis_u = $bd->getAmis($_GET['id']);?>  
-=======
-            <?php $listeamis_u = $bd->getAmis($_GET['id']);?>
->>>>>>> 589e21a78768b982e89072fd78b0304b5dc9997e
-            <!--echo "<h3>" . sizeof($listeamis_u) . " Résultats </h3>"; -->
-            <a href=<?php echo "'listeamis.php?id=" . $prof_u->getId() . "&choix=" . $choix=true . "'" ; ?> class='fen-apercu rightSide'>
-                <h3 id="ut"> <img src='img/photoProf.png' alt='' width='40px' height='40px'> Mes abonnements (<?php echo sizeof($listeamis_u);?>) </h3>
-            </a>
-            <?php $listerelations_u = $bg->getRelations($_GET['id']);?>  
-            <a href=<?php echo "'listeamis.php?id=" . $prof_u->getId() . "&choix=" . $choix=false . "'" ; ?> class='fen-apercu rightSide'>
-                <h3 id="ut">  Mes abonnés (<?php echo sizeof($listerelations_u);?>) <img src='img/photoProf.png' alt='' width='40px' height='40px'> </h3>
-            </a>
-            
+            <div class='rightSide' style='max-width:50%;'>
+                <a href=<?php echo "'cave.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu rightSide' style='width:90%;'>
+                    <h3 id="ut"> <img src='img/logo_alco2.gif' alt='' width='40px' height='40px'> Cave à bière (<?php echo sizeof($cave_u) ?>) </h3>
+                </a>
+                <?php $listeamis_u = $bd->getAmis($_GET['id']); ?>
+                <!--echo "<h3>" . sizeof($listeamis_u) . " Résultats </h3>"; -->
+                <a href=<?php echo "'listeamis.php?id=" . $prof_u->getId() . "'"; ?> class='fen-apercu rightSide'  style='width:90%;'   >
+                    <h3 id="ut"> <img src='img/photoProf.png' alt='' width='40px' height='40px'> Abonnements (<?php echo sizeof($listeamis_u); ?>) </h3>
+                </a>
+                <?php $listerelations_u = $bd->getRelations($_GET['id']); ?>
+                <a href=<?php echo "'listeamis.php?id=" . $prof_u->getId() . "&choix=true'"; ?> class='fen-apercu rightSide'  style='width:90%;'>
+                    <h3 id="ut"><img src='img/photoProf.png' alt='' width='40px' height='40px'>  Abonnés (<?php echo sizeof($listerelations_u); ?>) </h3>
+                </a>
+            </div>
+
 
         <?php
     } else {

@@ -10,8 +10,8 @@ class Utilisateur
     protected $nom;
     protected $prenom;
 
-    
-    public function __construct($id, $nom,$prenom, $pseudo, $dateNaissance="01/01/2000", $sexe="Unknown", $url_photo="photo_marion.png")
+
+    public function __construct($id, $nom, $prenom, $pseudo, $dateNaissance = "01/01/2000", $sexe = "Unknown", $url_photo = "photo_marion.png")
 
     {
         $this->nom = $nom;
@@ -21,12 +21,11 @@ class Utilisateur
         $this->sexe = $sexe;
         $this->dateNaissance = $dateNaissance;
         $this->url_photo = $url_photo;
-
     }
 
     public function getNom()
     {
-        return $this-> nom;
+        return $this->nom;
     }
 
     public function getPrenom()
@@ -48,27 +47,28 @@ class Utilisateur
     {
         return $this->identifiant;
     }
-    
+
     public function getURL_Photo()
     {
-        return "user/".$this->pseudo."/".$this->url_photo;
+        return "user/" . $this->pseudo . "/" . $this->url_photo;
     }
 
     public function afficherInfo($total = true, $myId)
     {
         echo
-            "<div >
-                <div>" . $this->afficherPhoto(180, 180) . "</div>";
-                if (!($this->getId()==$myId)){
-                if ($total){
-                    echo "<a href='profil.php?id=" . $this->getId() . "&idSupp=" .$this->getId() . " 'class='delete_avis'> Supprimer <i class='glyphicon glyphicon-remove'></i></a>";
-                }
-                if ($total==false){
-                    echo "<a href='profil.php?id=" . $this->getId() . "&idAdd=" .$this->getId() . " 'class='add_avis'> Ajouter <i class='glyphicon glyphicon-plus'></i></a>";
-                }}
-                echo "<h2> " .  htmlspecialchars($this->getPrenom()) . " " . htmlspecialchars($this -> getNom()) . "(" . htmlspecialchars($this->getPseudo()) . ")" . "</h2>
-                <h3> " . $this->getDateNaissance() . " </h3>
-            </div>";
+            "<div class='leftSide' style='max-width:50%'>";
+        $this->afficherPhoto(180, 180);
+        echo "<h2> " .  htmlspecialchars($this->getPrenom()) . " " . htmlspecialchars($this->getNom()) . "(" . htmlspecialchars($this->getPseudo()) . ")" . "</h2>
+                <h3> " . $this->getDateNaissance() . " </h3> <br>";
+        if (!($this->getId() == $myId)) {
+            if ($total) {
+                echo "<a href='profil.php?id=" . $this->getId() . "&idSupp=" . $this->getId() . " 'class='delete_avis leftSide'> Supprimer <i class='glyphicon glyphicon-remove'></i></a>";
+            }
+            if ($total == false) {
+                echo "<a href='profil.php?id=" . $this->getId() . "&idAdd=" . $this->getId() . " 'class='add_avis leftSide'> Ajouter <i class='glyphicon glyphicon-plus'></i></a>";
+            }
+        }
+        echo "</div>";
     }
 
     public function afficherAmis($supp = false, $myId)
@@ -76,15 +76,15 @@ class Utilisateur
         echo
             "<article class='blocApercu'>
             <div class='blocImage'>";
-            $this->afficherPhoto(50, 50);
+        $this->afficherPhoto(50, 50);
         echo "
             </div>";
         echo "
             <div class='blocDescription'>
             <a href='profil.php?id=" . $this->getId() . "' id='descriptionTitle'> " . htmlspecialchars($this->getPrenom()) .  " " . htmlspecialchars($this->getNom()) .  " -- " . $this->getPseudo() .  "</a>";
-            if ($supp) {      
-                echo "<a href='listeamis.php?id=" . $myId . "&idSupp=" .$this->getId() . "' class='delete_avis'><i class='glyphicon glyphicon-remove'></i></a>";
-            }
+        if ($supp) {
+            echo "<a href='listeamis.php?id=" . $myId . "&idSupp=" . $this->getId() . "' class='delete_avis'><i class='glyphicon glyphicon-remove'></i></a>";
+        }
         echo " 
             </div>
             </article>";

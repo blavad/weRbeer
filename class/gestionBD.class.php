@@ -173,7 +173,7 @@ class GestionBD
         return $amis;
     }
 
-    function getRelations($id){
+    function getRelations($id, $partName="%"){
         $req = $this->bd->prepare("SELECT idU1 FROM relation r, Utilisateur u WHERE r.idU1=u.idU AND r.idU2=? AND (u.prenom LIKE '" . $partName . "%' OR u.nom LIKE '" . $partName . "%' OR u.pseudo LIKE '" . $partName . "%') ORDER BY u.prenom, u.nom, u.pseudo ;");
         $req->execute(array($id));
 
