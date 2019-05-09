@@ -66,7 +66,7 @@ class Utilisateur
                 if ($total==false){
                     echo "<a href='profil.php?id=" . $this->getId() . "&idAdd=" .$this->getId() . " 'class='add_avis'> Ajouter <i class='glyphicon glyphicon-plus'></i></a>";
                 }}
-                echo "<h2> " . $this -> getNom() . " " . $this->getPrenom() . "(" . $this->getPseudo() . ")" . "</h2>
+                echo "<h2> " . htmlspecialchars($this -> getNom()) . " " . htmlspecialchars($this->getPrenom()) . "(" . htmlspecialchars($this->getPseudo()) . ")" . "</h2>
                 <h3> " . $this->getDateNaissance() . " </h3>
             </div>";
     }
@@ -81,7 +81,7 @@ class Utilisateur
             </div>";
         echo "
             <div class='blocDescription'>
-            <a href='profil.php?id=" . $this->getId() . "' id='descriptionTitle'> " . $this->getPrenom() .  " " . $this->getNom() .  " -- " . $this->getPseudo() .  "</a>";
+            <a href='profil.php?id=" . $this->getId() . "' id='descriptionTitle'> " . htmlspecialchars($this->getPrenom()) .  " " . htmlspecialchars($this->getNom()) .  " -- " . $this->getPseudo() .  "</a>";
             if ($supp) {      
                 echo "<a href='listeamis.php?id=" . $myId . "&idSupp=" .$this->getId() . "' class='delete_avis'><i class='glyphicon glyphicon-remove'></i></a>";
             }

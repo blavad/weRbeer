@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>weRbeer -- Ajout Bières</title>
+    <title>weRbeer -- Ajout Données</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <link rel="stylesheet" type="text/css" href="style.css" media="all" />

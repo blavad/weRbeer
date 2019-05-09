@@ -22,7 +22,7 @@ if (!isset($_SESSION['admin'])) {
 
     while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
         $label = $donnee['prenom'] . ' ' . $donnee['nom'].' ('.$donnee['pseudo'].')';
-        $u = array('type' => "u", 'value' => $donnee['idU'], 'label' => $label, 'icon' => 'user/'.$donnee['pseudo'].'/'. $donnee['urlPhoto']);
+        $u = array('type' => "u", 'value' => $donnee['idU'], 'label' => htmlspecialchars($label), 'icon' => 'user/'.$donnee['pseudo'].'/'. $donnee['urlPhoto']);
         array_push($array, $u);
         $i++;
     }
@@ -35,13 +35,13 @@ $req->execute(array('term' => $term . '%'));
 
 while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
     $label = $donnee['nomB'];
-    $u = array('type' => "b", 'value' => $donnee['nomB'], 'label' => $label, 'icon' => 'photoB/' . $donnee['urlPhoto']);
+    $u = array('type' => "b", 'value' => $donnee['nomB'], 'label' => htmlspecialchars($label), 'icon' => 'photoB/' . $donnee['urlPhoto']);
     array_push($array, $u);
     $i++;
 }
 
 $label = "Autres bières...";
-$u = array('type' => "o", 'value' => "", 'label' => $label, 'icon' => 'img/plus.png');
+$u = array('type' => "o", 'value' => "", 'label' => htmlspecialchars($label), 'icon' => 'img/plus.png');
 array_push($array, $u);
 
 echo json_encode($array);

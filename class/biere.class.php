@@ -13,7 +13,7 @@ class Biere
     protected $nbAvis;
     protected $url_photo;
 
-    public function __construct($nomB, $type, $mf, $deg, $moy, $nomMar, $url,$nbAv=0)
+    public function __construct($nomB, $type, $mf, $deg, $moy, $nomMar, $url, $nbAv = 0)
     {
         $this->nom = $nomB;
         $this->degre = $deg;
@@ -98,9 +98,21 @@ class Biere
             "<img src='" . $this->getUrl_photo() . "' width='" . $width . "px' height='" . $height . "px'>";
     }
 
+    public function initAffichageAuClic($idBalise="",$msg="Aucun message")
+    {
+        echo  "<script>
+            $(document).ready(function () {
+                $('.".$idBalise."').click(function () {
+                    
+                });
+            });
+        </script>";
+    }
+
     public function afficherBiere()
     {
         $bd = new GestionBD();
+        $this->initAffichageAuClic($this->getMF(),htmlspecialchars($bd->getMFDescription($this->getMF())['description']));
         echo
             "<article class='blocApercu'>
         <div class='blocImage'>";
@@ -109,18 +121,19 @@ class Biere
         </div>";
         echo "
         <div class='blocDescription'>
-        <a href='bieres.php?id=" . $this->getNom() . "' id='descriptionTitle'> " . $this->getNom() .  "</a>";
+        <a href='bieres.php?id=" . $this->getNom() . "' id='descriptionTitle'> " . htmlspecialchars($this->getNom()) .  "</a>";
         echo "<div id='logo_alco'><img src='http://www.gifsanimes.com/data/media/331/biere-image-animee-0035.gif' border='0' alt='' />
-        <h2 id='text_alco'>" . $this->getDegre() . " % Vol</h2>
+        <h2 id='text_alco'>" . htmlspecialchars($this->getDegre()) . " % Vol</h2>
         </div>";
-        echo " <span style='color:red; font : bold; font-size:14px;margin-left : 40px;'> <br>" . $this->getMoyenne() . "</span>/5 (" . $this->getNbAvis() . " avis) ";
-        echo "<div id='buttonCommentaire' style='margin-top:5px;'> 
-        Appelation : " . $this->getType() . " 
+        echo " <span style='color:red; font : bold; font-size:14px;margin-left : 40px;'> <br>" . htmlspecialchars($this->getMoyenne()) . "</span>/5 (" . $this->getNbAvis() . " avis) ";
+        echo "<div class='buttonCommentaire' style='margin-top:5px;'> 
+        Appelation : " . htmlspecialchars($this->getType()) . " 
         <br> 
-        Mode de Fabrication : <span style='cursor:default;' title='".$bd->getMFDescription($this->getMF())['description']."'>" . $this->getMF() . "</span> 
+        Mode de Fabrication : <span class='".$this->getMF()."' style='cursor:pointer;' title='" . htmlspecialchars($bd->getMFDescription($this->getMF())['description']) . "'>" . htmlspecialchars($this->getMF()) . "</span> 
+        
         <br> ";
         $mar = $bd->getMarqueInfos($this->getMarque());
-        echo "<span style='cursor:default;' title='Créée en ".$mar['annee']." à ".$mar['lieu']."'>Marque : " . $this->getMarque() . "</span> </div> 
+        echo "<span style='cursor:pointer;' title='Créée en " . htmlspecialchars($mar['annee']) . " à " . htmlspecialchars($mar['lieu']) . "'>Marque : " . $this->getMarque() . "</span> </div> 
         </div>
         </article>";
     }

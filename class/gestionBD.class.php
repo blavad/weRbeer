@@ -66,7 +66,7 @@ class GestionBD
                     $err = true;
                 }
                 // Check la dimension de l'image
-                if ($file["maPhoto"]["size"] > 3000000) {
+                if ($file["maPhoto"]["size"] > 30000000) {
                     $errMessage = "Fichier image trop gros";
                     $err = true;
                 }
