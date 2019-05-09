@@ -51,12 +51,22 @@ session_start();
             <a href=<?php echo "'cave.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu leftSide'>
                 <h3 id="ut"> <img src='img/logo_alco2.gif' alt='' width='40px' height='40px'> Cave à bière (<?php echo sizeof($cave_u)?>) </h3>
             </a>
+<<<<<<< HEAD
 
             <?php $listeamis_u = $bd->getAmis($_GET['id']);?>  
+=======
+            <?php $listeamis_u = $bd->getAmis($_GET['id']);?>
+>>>>>>> 589e21a78768b982e89072fd78b0304b5dc9997e
             <!--echo "<h3>" . sizeof($listeamis_u) . " Résultats </h3>"; -->
-            <a href=<?php echo "'listeamis.php?id=" . $prof_u->getId() . "' "; ?> class='fen-apercu rightSide'>
-                <h3 id="ut"> <img src='img/photoProf.png' alt='' width='40px' height='40px'> Liste d'amis (<?php echo sizeof($listeamis_u);?>) </h3>
+            <a href=<?php echo "'listeamis.php?id=" . $prof_u->getId() . "&choix=" . $choix=true . "'" ; ?> class='fen-apercu rightSide'>
+                <h3 id="ut"> <img src='img/photoProf.png' alt='' width='40px' height='40px'> Mes abonnements (<?php echo sizeof($listeamis_u);?>) </h3>
             </a>
+            <?php $listerelations_u = $bg->getRelations($_GET['id']);?>  
+            <a href=<?php echo "'listeamis.php?id=" . $prof_u->getId() . "&choix=" . $choix=false . "'" ; ?> class='fen-apercu rightSide'>
+                <h3 id="ut">  Mes abonnés (<?php echo sizeof($listerelations_u);?>) <img src='img/photoProf.png' alt='' width='40px' height='40px'> </h3>
+            </a>
+            
+
         <?php
     } else {
         $prof_u->afficherInfo(false, $_SESSION["util"]->getId());

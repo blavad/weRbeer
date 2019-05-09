@@ -66,7 +66,7 @@ class Utilisateur
                 if ($total==false){
                     echo "<a href='profil.php?id=" . $this->getId() . "&idAdd=" .$this->getId() . " 'class='add_avis'> Ajouter <i class='glyphicon glyphicon-plus'></i></a>";
                 }}
-                echo "<h2> " . htmlspecialchars($this -> getNom()) . " " . htmlspecialchars($this->getPrenom()) . "(" . htmlspecialchars($this->getPseudo()) . ")" . "</h2>
+                echo "<h2> " .  htmlspecialchars($this->getPrenom()) . " " . htmlspecialchars($this -> getNom()) . "(" . htmlspecialchars($this->getPseudo()) . ")" . "</h2>
                 <h3> " . $this->getDateNaissance() . " </h3>
             </div>";
     }
