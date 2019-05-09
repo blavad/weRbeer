@@ -20,23 +20,27 @@ class GestionBD
         }
     }
 
-
     function addBiere($data, $file)
     {
-        $errMessage = "Bière ajoutée avec succès";
-        $err = false;
+        $target_file = "photoB/" . basename($file["photoB"]["name"]);
+        $err_photo = $this->checkPhotoValide($file["photoB"], $target_file);
+        $err = $err_photo['err'];
+        $errMessage = $err_photo['errMessage'];
         if ($data['type'] == "" || $data['marque'] == "" ||  $data['mf'] == "") {
             $errMessage = "Champs manquant";
             $err = true;
         }
         $req = $this->bd->prepare("SELECT nomB FROM Biere WHERE nomB=?;");
         $req->execute(array($data['nomB']));
-        if ($donnees = $req->fetch()) {
+        if ($req->fetch()) {
             $errMessage = "Bière déjà existante";
             $err = true;
         }
         if (!$err) {
+            $errMessage = "Bière ajoutée avec succès";
             $urlPhoto = $file["photoB"]["name"];
+            move_uploaded_file($file["photoB"]["tmp_name"], $target_file);
+
             $req = $this->bd->prepare('INSERT INTO Biere(nomB,nomMar, nomT, nomMF, alcoolemie, urlPhoto) VALUES(:nomB,:nomMar,:nomT,:nomMF,:alcoolemie,:urlPhoto)');
             $req->execute(array(
                 'nomB' => $data['nomB'],
@@ -455,10 +459,27 @@ class GestionBD
 
     function modifierPhoto($id, $file)
     {
-        $err = false;
         $u = $this->getUtilisateur($id);
         $target_dir = "user/" . $u->getPseudo();
         $target_file = $target_dir . "/" . basename($file["name"]);
+        $err_photo = $this->checkPhotoValide($file, $target_file);
+        if (!$err_photo['err']) {
+            $urlPhoto = $file["name"];
+            move_uploaded_file($file["tmp_name"], $target_file);
+            $req = $this->bd->prepare('UPDATE Utilisateur u SET u.urlPhoto=:newURL WHERE u.idU =:idU;');
+            $req->execute(array(
+                'newURL' => $urlPhoto,
+                'idU' => $id
+            ));
+        }
+        return array('erreur' => $err_photo['err'], 'errMessage' => $err_photo['errMessage']);
+    }
+
+
+    function checkPhotoValide($file, $target_file)
+    {
+        $err = false;
+        $errMessage = "Image correct";
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         // Check si une image a été choisie
         if ($file["name"] != "") {
@@ -490,19 +511,8 @@ class GestionBD
                 $err = true;
             }
         }
-
-        if (!$err) {
-            $urlPhoto = $file["name"];
-            move_uploaded_file($file["tmp_name"], $target_file);
-            $req = $this->bd->prepare('UPDATE Utilisateur u SET u.urlPhoto=:newURL WHERE u.idU =:idU;');
-            $req->execute(array(
-                'newURL' => $urlPhoto,
-                'idU' => $id
-            ));
-        }
-        return array('erreur' => $err, 'errMessage' => $errMessage);
+        return array("err" => $err, "errMessage" => $errMessage);
     }
-
 
     function supprimerCompte($id)
     {
