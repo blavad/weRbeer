@@ -44,8 +44,8 @@ session_start();
         $bd = new GestionBD();
         if (isset($_GET['id'])) {
             if ($bd->isAllowed($_SESSION["util"]->getId(), $_GET['id'])) {
-                if (isset($_GET['nomB'])) {
-                    $bd->supprimerAvis($_GET['id'], $_GET['nomB']);
+                if (isset($_GET['nomBSupp'])) {
+                    $bd->supprimerAvis($_GET['id'], $_GET['nomBSupp']);
                 }
                 $util = $bd->getUtilisateur($_GET['id']);
                 echo "<h1> Cave de " . $util->getPseudo() . " </h1>"; ?>

@@ -53,7 +53,7 @@ class Avis
         echo "
         </div>";
                 if ($supp) {      
-                    echo "<a href='cave.php?id=".$this->getIdU()."&nomB=".$this->getBiere()->getNom()."' class='delete_avis'><i class='glyphicon glyphicon-remove'></i></a>";
+                    echo "<a href='cave.php?id=".$this->getIdU()."&nomBSupp=".$this->getBiere()->getNom()."' class='delete_avis'><i class='glyphicon glyphicon-remove'></i></a>";
                 }
         echo "
         <div class='blocDescription'>

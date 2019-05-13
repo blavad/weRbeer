@@ -29,8 +29,8 @@ if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 	<div class='main-content'>
 		<table>
 			<tr>
-				<td >
-					<form method="post" action="parametres.php" enctype="multipart/form-data" >
+				<td>
+					<form method="post" action="parametres.php" enctype="multipart/form-data">
 						<fieldset id='co'>
 							<legend> Parametres du compte </legend>
 
@@ -92,6 +92,9 @@ if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 		}
 		if (isset($_FILES['newPhoto'])) {
 			$msgErr = $bd->modifierPhoto($_SESSION['util']->getId(), $_FILES['newPhoto']);
+			if (!$msgErr['erreur']) {
+				$_SESSION['util']->setUrlPhoto($_FILES['newPhoto']['name']);
+			}
 			echo messageResultatAjout($msgErr['errMessage'], $msgErr['erreur']);
 		}
 	}

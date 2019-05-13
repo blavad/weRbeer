@@ -30,7 +30,7 @@
                 } else if (item.type == "u"){
                     return $("<li>")
                         .data("item.autocomplete", item)
-                        .append("<a href='profil?id=" + item.value + "'><img src='" + item.icon + "' width='30px', height='30px'><span style='margin-left:30px'>" + item.label + "</span></a>")
+                        .append("<a href='profil.php?id=" + item.value + "'><img src='" + item.icon + "' width='30px', height='30px'><span style='margin-left:30px'>" + item.label + "</span></a>")
                         .appendTo(ul);
                 } else {
                     return $("<li>")

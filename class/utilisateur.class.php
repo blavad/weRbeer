@@ -53,6 +53,10 @@ class Utilisateur
         return "user/" . $this->pseudo . "/" . $this->url_photo;
     }
 
+    public function setUrlPhoto($url){
+        $this->url_photo = $url;
+    }
+
     public function afficherInfo($total = true, $myId)
     {
         echo
