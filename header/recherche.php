@@ -4,13 +4,15 @@ session_start();
 
 $NB_AFFICHAGE = 3;
 
-$servername = "127.0.0.1";
-$username = "weRbeer"; //"id9515413_werbeer";
-$password = "frosties";
-$database = "weRbeer"; //"id9515413_werbeer";
+$servername = "ec2-34-247-151-118.eu-west-1.compute.amazonaws.com";
+        $username = "kqnlvupypdvakq";//"id9515413_werbeer";
+        $password = "c2645913c2f90a0f49a030598f9881d199c9a34a3942a5f77c8008d020ab3865";
+        $database = "d8pa0crf9c52tq";//"id9515413_werbeer";
+
+$dsn = "pgsql:host=$servername;port=5432;dbname=$database;user=$username;password=$password";
 
 try {
-    $bd = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+    $bd = new PDO($dsn);
     // set the PDO error mode to exception
     $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
@@ -27,7 +29,7 @@ if (!isset($_SESSION['admin'])) {
 
     while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
         $label = $donnee['prenom'] . ' ' . $donnee['nom'] . ' (' . $donnee['pseudo'] . ')';
-        $u = array('type' => "u", 'value' => $donnee['idU'], 'label' => htmlspecialchars($label), 'icon' => 'user/' . $donnee['pseudo'] . '/' . $donnee['urlPhoto']);
+        $u = array('type' => "u", 'value' => $donnee['idu'], 'label' => htmlspecialchars($label), 'icon' => 'user/' . $donnee['pseudo'] . '/' . $donnee['urlphoto']);
         array_push($array, $u);
         $i++;
     }
@@ -35,12 +37,12 @@ if (!isset($_SESSION['admin'])) {
 
 $i = (isset($_SESSION['admin'])) ? -3 : 0;
 
-$req = $bd->prepare('SELECT * FROM Biere WHERE nomB LIKE :term ORDER BY nomB');
+$req = $bd->prepare('SELECT * FROM Biere WHERE nomb LIKE :term ORDER BY nomb');
 $req->execute(array('term' => $term . '%'));
 
 while (($donnee = $req->fetch()) && ($i < $NB_AFFICHAGE)) {
-    $label = $donnee['nomB'];
-    $u = array('type' => "b", 'value' => $donnee['nomB'], 'label' => htmlspecialchars($label), 'icon' => 'photoB/' . $donnee['urlPhoto']);
+    $label = $donnee['nomb'];
+    $u = array('type' => "b", 'value' => $donnee['nomb'], 'label' => htmlspecialchars($label), 'icon' => 'photoB/' . $donnee['urlphoto']);
     array_push($array, $u);
     $i++;
 }

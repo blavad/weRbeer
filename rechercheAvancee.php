@@ -54,7 +54,7 @@ session_start();
                 <br />
                 <select class='option_recherche' name="tri">
                     <option value=""> -- Choisissez une option --</option>
-                    <option value="b.nomB">Ordre alphabétique</option>
+                    <option value="b.nomb">Ordre alphabétique</option>
                     <option value="b.noteMoyenne DESC">Les meilleures</option>
                     <option value="b.noteMoyenne">Les pires</option>
                     <option value="b.alcoolemie DESC">Les plus alcoolisées</option>
@@ -65,7 +65,7 @@ session_start();
                 <label for=""> Selection avancée : </label>
                 <br />
                 <br />
-                <input class="option_recherche" placeholder=" Nom bière" name="nomB" type="text" size="20" value=""/>
+                <input class="option_recherche" placeholder=" Nom bière" name="nomb" type="text" size="20" value=""/>
                 <select class='option_recherche' name="type">
                     <option value=""> -- Type --</option>
                     <?php
@@ -105,7 +105,7 @@ session_start();
         $mf = "%";
         $marque = "%";
         $tri = "";
-        $nomB = "%";
+        $nomb = "%";
         if (isset($_GET['type']) && $_GET['type'] != "") {
             $type = $_GET['type'];
         }
@@ -115,13 +115,13 @@ session_start();
         if (isset($_GET['mf']) && $_GET['mf'] != "") {
             $mf = $_GET['mf'];
         }
-        if (isset($_GET['nomB']) && $_GET['nomB'] != "") {
-            $nomB = $_GET['nomB'];
+        if (isset($_GET['nomb']) && $_GET['nomb'] != "") {
+            $nomb = $_GET['nomb'];
         }
         if (isset($_GET['tri']) && $_GET['tri'] != "") {
             $tri = "ORDER BY " . $_GET['tri'];
         }
-        $bieres = $bd->getBieres($type, $mf, $marque, $nomB,$tri);
+        $bieres = $bd->getBieres($type, $mf, $marque, $nomb,$tri);
         echo "<h3>" . sizeof($bieres) . " Résultats </h3>";
         for ($i = 0; $i < sizeof($bieres); $i++) {
             $bieres[$i]->afficherBiere();

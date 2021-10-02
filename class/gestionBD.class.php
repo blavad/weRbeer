@@ -10,49 +10,51 @@ class GestionBD
 
     public function __construct()
     {
-        $servername = "127.0.0.1";
-        $username = "weRbeer";//"id9515413_werbeer";
-        $password = "frosties";
-        $database = "weRbeer";//"id9515413_werbeer";
+        $servername = "ec2-34-247-151-118.eu-west-1.compute.amazonaws.com";
+        $username = "kqnlvupypdvakq";//"id9515413_werbeer";
+        $password = "c2645913c2f90a0f49a030598f9881d199c9a34a3942a5f77c8008d020ab3865";
+        $database = "d8pa0crf9c52tq";//"id9515413_werbeer";
 
+	$dsn = "pgsql:host=$servername;port=5432;dbname=$database;user=$username;password=$password";
+   
         try {
-            $this -> bd = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-            // set the PDO error mode to exception
+            $this->bd = new PDO($dsn);
+	    // set the PDO error mode to exception
             $this -> bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {    
-            echo "Connection failed: " . $e->getMessage();
+        } catch(Exception $e) {    
+            echo "Connection failed: ".$e->getMessage();
         }
     }
 
     function addBiere($data, $file)
     {
-        $target_file = "photoB/" . basename($file["photoB"]["name"]);
-        $err_photo = $this->checkPhotoValide($file["photoB"], $target_file);
+        $target_file = "photoB/" . basename($file["photob"]["name"]);
+        $err_photo = $this->checkPhotoValide($file["photob"], $target_file);
         $err = $err_photo['err'];
         $errMessage = $err_photo['errMessage'];
         if ($data['type'] == "" || $data['marque'] == "" ||  $data['mf'] == "") {
             $errMessage = "Champs manquant";
             $err = true;
         }
-        $req = $this->bd->prepare("SELECT nomB FROM Biere WHERE nomB=?;");
-        $req->execute(array($data['nomB']));
+        $req = $this->bd->prepare("SELECT nomb FROM biere WHERE nomb=?;");
+        $req->execute(array($data['nomb']));
         if ($req->fetch()) {
             $errMessage = "Bière déjà existante";
             $err = true;
         }
         if (!$err) {
-            $errMessage = "Bière ajoutée avec succès";
-            $urlPhoto = $file["photoB"]["name"];
-            move_uploaded_file($file["photoB"]["tmp_name"], $target_file);
+            $errMessage = "Bière ajoutée avec succès ";
+            $urlphoto = $file['photob']['name'];
+            move_uploaded_file($file['photob']['tmp_name'], $target_file);
 
-            $req = $this->bd->prepare('INSERT INTO Biere(nomB,nomMar, nomT, nomMF, alcoolemie, urlPhoto) VALUES(:nomB,:nomMar,:nomT,:nomMF,:alcoolemie,:urlPhoto)');
+            $req = $this->bd->prepare('INSERT INTO Biere(nomb,nommar, nomt, nommf, alcoolemie, urlphoto) VALUES(:nomb,:nommar,:nomt,:nommf,:alcoolemie,:urlphoto)');
             $req->execute(array(
-                'nomB' => $data['nomB'],
-                'nomMar' => $data['marque'],
-                'nomT' => $data['type'],
-                'nomMF' => $data['mf'],
+                'nomb' => $data['nomb'],
+                'nommar' => $data['marque'],
+                'nomt' => $data['type'],
+                'nommf' => $data['mf'],
                 'alcoolemie' => $data['alco'],
-                'urlPhoto' => $urlPhoto,
+                'urlphoto' => $urlphoto,
             ));
         }
         return array('erreur' => $err, 'errMessage' => $errMessage);
@@ -62,7 +64,7 @@ class GestionBD
 
     function isAllowed($id_u, $id_ami)
     {
-        $req = $this->bd->prepare("SELECT * FROM relation WHERE idU1 = ? AND idU2 = ?;");
+        $req = $this->bd->prepare("SELECT * FROM relation WHERE idu1 = ? AND idu2 = ?;");
         $req->execute(array($id_u, $id_ami));
 
         return $req->fetch() || $id_u == $id_ami;
@@ -70,12 +72,12 @@ class GestionBD
 
     function getUtilisateur($id)
     {
-        $req = $this->bd->prepare("SELECT * FROM Utilisateur WHERE idU = ?;");
+        $req = $this->bd->prepare("SELECT * FROM Utilisateur WHERE idu = ?;");
         $req->execute(array($id));
 
         $req_util = $req->fetch();
 
-        $util = new Utilisateur($req_util['idU'], $req_util['nom'], $req_util['prenom'], $req_util['pseudo'],  $req_util['dateNaissance'], $req_util['sexe'], $req_util['urlPhoto']);
+        $util = new Utilisateur($req_util['idu'], $req_util['nom'], $req_util['prenom'], $req_util['pseudo'],  $req_util['datenaissance'], $req_util['sexe'], $req_util['urlphoto']);
 
         $req->closeCursor();
 
@@ -84,12 +86,12 @@ class GestionBD
 
     function getAmis($id, $partName = "%")
     {
-        $req = $this->bd->prepare("SELECT idU2 FROM relation r, Utilisateur u WHERE r.idU1=? AND r.idU2=u.idU AND (u.prenom LIKE '" . $partName . "%' OR u.nom LIKE '" . $partName . "%' OR u.pseudo LIKE '" . $partName . "%') ORDER BY u.prenom, u.nom, u.pseudo ;");
+        $req = $this->bd->prepare("SELECT idu2 FROM relation r, utilisateur u WHERE r.idu1=? AND r.idu2=u.idu AND (u.prenom LIKE '" . $partName . "%' OR u.nom LIKE '" . $partName . "%' OR u.pseudo LIKE '" . $partName . "%') ORDER BY u.prenom, u.nom, u.pseudo ;");
         $req->execute(array($id));
 
         $amis = array();
         while ($donnees = $req->fetch()) {
-            $amis[] = $this->getUtilisateur($donnees['idU2']);
+            $amis[] = $this->getUtilisateur($donnees['idu2']);
         }
         $req->closeCursor();
 
@@ -98,12 +100,12 @@ class GestionBD
 
     function getRelations($id, $partName = "%")
     {
-        $req = $this->bd->prepare("SELECT idU1 FROM relation r, Utilisateur u WHERE r.idU1=u.idU AND r.idU2=? AND (u.prenom LIKE '" . $partName . "%' OR u.nom LIKE '" . $partName . "%' OR u.pseudo LIKE '" . $partName . "%') ORDER BY u.prenom, u.nom, u.pseudo ;");
+        $req = $this->bd->prepare("SELECT idu1 FROM relation r, utilisateur u WHERE r.idu1=u.idu AND r.idu2=? AND (u.prenom LIKE '" . $partName . "%' OR u.nom LIKE '" . $partName . "%' OR u.pseudo LIKE '" . $partName . "%') ORDER BY u.prenom, u.nom, u.pseudo ;");
         $req->execute(array($id));
 
         $amis = array();
         while ($donnees = $req->fetch()) {
-            $amis[] = $this->getUtilisateur($donnees['idU1']);
+            $amis[] = $this->getUtilisateur($donnees['idu1']);
         }
         $req->closeCursor();
 
@@ -112,44 +114,44 @@ class GestionBD
 
     function addAmi($mon_id, $id_ami)
     {
-        $req = $this->bd->prepare('INSERT INTO relation(idU1,idU2) VALUES(:idU1, :idU2)');
+        $req = $this->bd->prepare('INSERT INTO relation(idu1,idu2) VALUES(:idu1, :idu2)');
         $req->execute(array(
-            'idU1' => $mon_id,
-            'idU2' => $id_ami
+            'idu1' => $mon_id,
+            'idu2' => $id_ami
         ));
     }
 
     function supprimerAmi($mon_id, $id_ami)
     {
-        $req = $this->bd->prepare('DELETE FROM relation WHERE idU1=:idU1 AND idU2=:idU2');
+        $req = $this->bd->prepare('DELETE FROM relation WHERE idu1=:idu1 AND idu2=:idu2');
         $req->execute(array(
-            'idU1' => $mon_id,
-            'idU2' => $id_ami
+            'idu1' => $mon_id,
+            'idu2' => $id_ami
         ));
     }
 
 
     // Bieres et avis
 
-    function recherche_avis_avancee($select = 'nomT', $id = "-1")
+    function recherche_avis_avancee($select = 'nomt', $id = "-1")
     {
         if ($id == "-1") {
             $table = "";
             switch ($select) {
-                case 'nomT':
-                    $table = "Type";
+                case 'nomt':
+                    $table = "type";
                     break;
-                case 'nomMar':
-                    $table = "Marque";
+                case 'nommar':
+                    $table = "marque";
                     break;
-                case 'nomMF':
-                    $table = "ModeFabrication";
+                case 'nommf':
+                    $table = "modefabrication";
                     break;
             }
-            $req = $this->bd->prepare("SELECT DISTINCT " . $select . " FROM " . $table . ";");
+            $req = $this->bd->prepare("SELECT DISTINCT ".$select." FROM ".$table.";");
             $req->execute();
         } else {
-            $req = $this->bd->prepare("SELECT DISTINCT " . $select . " FROM avis a, Biere b WHERE b.nomB=a.nomB AND a.idU=?;");
+            $req = $this->bd->prepare("SELECT DISTINCT ".$select." FROM avis a, biere b WHERE b.nomb=a.nomb AND a.idu=?;");
             $req->execute(array($id));
         }
         $res = array();
@@ -161,84 +163,84 @@ class GestionBD
     }
 
     function getType($id = "-1")
-    {
-        return $this->recherche_avis_avancee("nomT", $id);
+    {      
+	return $this->recherche_avis_avancee("nomt", $id);
     }
 
     function getMF($id = "-1")
     {
-        return $this->recherche_avis_avancee("nomMF", $id);
+        return $this->recherche_avis_avancee("nommf", $id);
     }
 
     function getMarque($id = "-1")
     {
-        return $this->recherche_avis_avancee("nomMar", $id);
+        return $this->recherche_avis_avancee("nommar", $id);
     }
 
-    function getBiere($nomBiere)
+    function getBiere($nombiere)
     {
-        $req = $this->bd->prepare("SELECT * FROM Biere WHERE nomB = ?;");
-        $req->execute(array($nomBiere));
+        $req = $this->bd->prepare("SELECT * FROM Biere WHERE nomb = ?;");
+        $req->execute(array($nombiere));
         $donnees = $req->fetch();
-        $biere = new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto']);
+        $biere = new Biere($donnees['nomb'], $donnees['nomt'], $donnees['nommf'], $donnees['alcoolemie'], $donnees['notemoyenne'], $donnees['nommar'], $donnees['urlphoto']);
 
-        $req = $this->bd->prepare("SELECT COUNT(*) FROM avis WHERE nomB = ?;");
-        $req->execute(array($nomBiere));
+        $req = $this->bd->prepare("SELECT COUNT(*) FROM avis WHERE nomb = ?;");
+        $req->execute(array($nombiere));
         $donnees = $req->fetch();
-        $biere->setNbAvis($donnees['COUNT(*)']);
+        $biere->setNbAvis($donnees['count']);
         $req->closeCursor();
 
         return $biere;
     }
 
-    function getBieres($type, $mf, $marque, $nomB, $tri)
+    function getBieres($type, $mf, $marque, $nomb, $tri)
     {
-        $req = $this->bd->prepare("SELECT * FROM Biere b WHERE b.nomB LIKE '" . $nomB . "%' AND b.nomT LIKE '" . $type . "' AND b.nomMar LIKE '" . $marque . "' AND b.nomMF LIKE '" . $mf . "' " . $tri . ";");
-        $req->execute(array($type, $mf, $marque, $tri));
+        $req = $this->bd->prepare("SELECT * FROM biere b WHERE b.nomb LIKE '" . $nomb . "%' AND b.nomt LIKE '" . $type . "' AND b.nommar LIKE '" . $marque . "' AND b.nommf LIKE '" . $mf . "' " . $tri . ";");
+        $req->execute();
 
         $bieres = array();
         while ($donnees = $req->fetch()) {
-            $reqAvis = $this->bd->prepare("SELECT COUNT(*) FROM avis a WHERE a.nomB = ?;");
-            $reqAvis->execute(array($donnees['nomB']));
+            $reqAvis = $this->bd->prepare("SELECT COUNT(*) FROM avis a WHERE a.nomb = ?;");
+            $reqAvis->execute(array($donnees['nomb']));
             $nbA = $reqAvis->fetch();
-            $bieres[] = new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto'], $nbA['COUNT(*)']);
+            $bieres[] = new Biere($donnees['nomb'], $donnees['nomt'], $donnees['nommf'], $donnees['alcoolemie'], $donnees['notemoyenne'], $donnees['nommar'], $donnees['urlphoto'], $nbA['count']);
         }
         $req->closeCursor();
 
         return $bieres;
     }
 
-    function getCave($id, $type = "%", $mf = "%", $marque = "%", $nomB = "%", $tri = "")
+    function getCave($id, $type = "%", $mf = "%", $marque = "%", $nomb = "%", $tri = "")
     {
-        $req = $this->bd->prepare("SELECT * FROM avis a, Biere b WHERE b.nomB=a.nomB AND a.idU=? AND b.nomB LIKE '" . $nomB . "%' AND b.nomT LIKE '" . $type . "' AND b.nomMar LIKE '" . $marque . "' AND b.nomMF LIKE '" . $mf . "' " . $tri . ";");
+        $req = $this->bd->prepare("SELECT * FROM avis a, Biere b WHERE b.nomb=a.nomb AND a.idu=? AND b.nomb LIKE '" . $nomb . "%' AND b.nomt LIKE '" . $type . "' AND b.nommar LIKE '" . $marque . "' AND b.nommf LIKE '" . $mf . "' " . $tri . ";");
         $req->execute(array($id));
 
         $cave = array();
         while ($donnees = $req->fetch()) {
-            $cave[] = new Avis($donnees['idU'], new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto']), $donnees['note'], $donnees['commentaire']);
+            $cave[] = new Avis($donnees['idu'], new Biere($donnees['nomb'], $donnees['nomt'], $donnees['nommf'], $donnees['alcoolemie'], $donnees['notemoyenne'], $donnees['nommar'], $donnees['urlphoto']), $donnees['note'], $donnees['commentaire']);
         }
         $req->closeCursor();
 
         return $cave;
     }
 
-    function addAvis($id, $nomBiere, $note, $com)
+    function addAvis($id, $nombiere, $note, $com)
     {
-        $req = $this->bd->prepare('INSERT INTO avis(idU,nomB,note,commentaire ) VALUES(:idU, :nomB, :note, :commentaire)');
+        $req = $this->bd->prepare('INSERT INTO avis(idu,nomb,note,commentaire ) VALUES(:idu, :nomb, :note, :commentaire)');
         $req->execute(array(
-            'idU' => $id,
-            'nomB' => $nomBiere,
+            'idu' => $id,
+            'nomb' => $nombiere,
             'note' => $note,
             'commentaire' => $com
         ));
     }
 
-    function supprimerAvis($mon_id, $nomBiere)
+    function supprimerAvis($mon_id, $nombiere)
     {
-        $req = $this->bd->prepare('DELETE FROM avis WHERE idU=:idU AND nomB=:nomB');
+        $req = $this->bd->prepare('DELETE FROM avis WHERE idu=:idu AND nomb=:nomb');
         $req->execute(array(
-            'idU' => $mon_id,
-            'nomB' => $nomBiere
+            'idu' => $mon_id,
+            'nomb' => $nombiere
         ));
     }
 
@@ -247,21 +249,21 @@ class GestionBD
     {
         // Récupération des actus relatifs aux derniers avis ajoutés
         $actusAjoutBieres = array();
-        $req = $this->bd->prepare("SELECT * FROM relation r, avis a, Biere b WHERE b.nomB=a.nomB AND a.idU=r.idU2 AND r.idU1=:idU;");
+        $req = $this->bd->prepare("SELECT * FROM relation r, avis a, Biere b WHERE b.nomb=a.nomb AND a.idu=r.idu2 AND r.idu1=:idu;");
         $req->execute(array(
-            'idU' => $id
+            'idu' => $id
         ));
         while ($donnees = $req->fetch()) {
-            $actusAjoutBieres[] = new Avis($donnees['idU'], new Biere($donnees['nomB'], $donnees['nomT'], $donnees['nomMF'], $donnees['alcoolemie'], $donnees['noteMoyenne'], $donnees['nomMar'], $donnees['urlPhoto']), $donnees['note'], $donnees['commentaire']);
+            $actusAjoutBieres[] = new Avis($donnees['idu'], new Biere($donnees['nomb'], $donnees['nomt'], $donnees['nommf'], $donnees['alcoolemie'], $donnees['notemoyenne'], $donnees['nommar'], $donnees['urlphoto']), $donnees['note'], $donnees['commentaire']);
         }
         $req->closeCursor();
 
         // Récupération des actus relatifs aux derniers amis qui m'ont suivis     
         $actusAjoutAmis = array();
-        $req = $this->bd->prepare("SELECT r.idU1 FROM relation r WHERE r.idU2=?;");
+        $req = $this->bd->prepare("SELECT r.idu1 FROM relation r WHERE r.idu2=?;");
         $req->execute(array($id));
         while ($donnees = $req->fetch()) {
-            $actusAjoutAmis[] = $this->getUtilisateur($donnees['idU1']);
+            $actusAjoutAmis[] = $this->getUtilisateur($donnees['idu1']);
         }
         $req->closeCursor();
 
@@ -269,10 +271,10 @@ class GestionBD
         return $actu;
     }
 
-    function getMFDescription($nomMF = "inconnu")
+    function getMFDescription($nommf = "inconnu")
     {
-        $req = $this->bd->prepare("SELECT description FROM ModeFabrication WHERE nomMF = ?;");
-        $req->execute(array($nomMF));
+        $req = $this->bd->prepare("SELECT description FROM ModeFabrication WHERE nommf = ?;");
+        $req->execute(array($nommf));
 
         $donnee = $req->fetch();
 
@@ -282,14 +284,14 @@ class GestionBD
         return $res;
     }
 
-    function getMarqueInfos($nomMarque = "Heineken")
+    function getMarqueInfos($nommarque = "Heineken")
     {
-        $req = $this->bd->prepare("SELECT l.ville, l.pays, m.dateFondation FROM Marque m, Lieu l WHERE l.idLoc=m.idLoc AND nomMar = ?;");
-        $req->execute(array($nomMarque));
+        $req = $this->bd->prepare("SELECT l.ville, l.pays, m.dateFondation FROM Marque m, Lieu l WHERE l.idloc=m.idloc AND nommar = ?;");
+        $req->execute(array($nommarque));
 
         $donnee = $req->fetch();
 
-        $res = array('lieu' => $donnee['ville'] . ", " . $donnee['pays'], 'annee' => $donnee['dateFondation']);
+        $res = array('lieu' => $donnee['ville'] . ", " . $donnee['pays'], 'annee' => $donnee['datefondation']);
         $req->closeCursor();
 
         return $res;
@@ -297,11 +299,11 @@ class GestionBD
 
     function getLieux()
     {
-        $req = $this->bd->prepare("SELECT DISTINCT idLoc, ville, region, pays FROM Lieu ORDER BY pays, region, ville;");
+        $req = $this->bd->prepare("SELECT DISTINCT idloc, ville, region, pays FROM Lieu ORDER BY pays, region, ville;");
         $req->execute();
         $res = array();
         while ($donnees = $req->fetch()) {
-            $lieu = array('idLoc' => $donnees['idLoc'], 'ville' => $donnees['ville'], 'region' => $donnees['region'], 'pays' => $donnees['pays']);
+            $lieu = array('idloc' => $donnees['idloc'], 'ville' => $donnees['ville'], 'region' => $donnees['region'], 'pays' => $donnees['pays']);
             $res[] = $lieu;
         }
         $req->closeCursor();
@@ -325,31 +327,32 @@ class GestionBD
     {
         $errMessage = "Marque ajoutée avec succès";
         $err = false;
+	
         if ($data['lieu'] == "") {
             $errMessage = "Champs manquant";
             $err = true;
         }
-        $req = $this->bd->prepare("SELECT nomMar FROM Marque WHERE nomMar=?;");
-        $req->execute(array($data['nomMar']));
+        $req = $this->bd->prepare("SELECT nommar FROM Marque WHERE nommar=?;");
+        $req->execute(array($data['nommar']));
         if ($donnees = $req->fetch()) {
             $errMessage = "Marque déjà existante";
             $err = true;
         }
         if (!$err) {
-            $req = $this->bd->prepare('INSERT INTO Marque(nomMar, idLoc, dateFondation) VALUES(:nomMar, :idLoc, :annee)');
+            $req = $this->bd->prepare('INSERT INTO Marque(nommar, idloc, dateFondation) VALUES(:nommar, :idloc, :annee)');
             $req->execute(array(
-                'nomMar' => $data['nomMar'],
-                'idLoc' => $data['lieu'],
-                'annee' => $data['annee']
+                'nommar' => $data['nommar'],
+                'idloc' => $data['lieu'],
+                'annee' => $data['annee'].'-01-01'
             ));
         }
         return array('erreur' => $err, 'errMessage' => $errMessage);
     }
 
-    function dejaAjouter($nomB, $idU)
+    function dejaAjouter($nomb, $idu)
     {
-        $req = $this->bd->prepare("SELECT * FROM avis WHERE nomB = ? AND idU = ?;");
-        $req->execute(array($nomB, $idU));
+        $req = $this->bd->prepare("SELECT * FROM avis WHERE nomb = ? AND idu = ?;");
+        $req->execute(array($nomb, $idu));
         return $req->fetch();
     }
 
@@ -360,13 +363,13 @@ class GestionBD
 
     function connexion($pseudo, $mdp)
     {
-        $req = $this->bd->prepare("SELECT idU, mdp FROM Utilisateur WHERE pseudo = ?;");
+        $req = $this->bd->prepare("SELECT idu, mdp FROM Utilisateur WHERE pseudo = ?;");
         $req->execute(array($pseudo));
 
         $req_mdp = $req->fetch();
         $req->closeCursor();
 
-        $res = array($req_mdp['idU'], $req_mdp['mdp'] == $mdp);
+        $res = array($req_mdp['idu'], $req_mdp['mdp'] == $mdp);
 
         return $res;
     }
@@ -420,23 +423,23 @@ class GestionBD
             // Si pas d'erreur on crée le dossier utilisateur et on ajoute la photo
             if (!$err) {
                 mkdir($target_dir);
-                $urlPhoto = "";
+                $urlphoto = "";
                 if ($file["maPhoto"]["name"] == "") {
-                    $urlPhoto = "photoProf.png";
-                    $target_file = $target_dir . "/" . $urlPhoto;
+                    $urlphoto = "photoProf.png";
+                    $target_file = $target_dir . "/" . $urlphoto;
                     copy("img/photoProf.png", $target_file);
                 } else {
-                    $urlPhoto = $file["maPhoto"]["name"];
+                    $urlphoto = $file["maPhoto"]["name"];
                     move_uploaded_file($file["maPhoto"]["tmp_name"], $target_file);
                 }
-                $req = $this->bd->prepare('INSERT INTO Utilisateur(nom,prenom,pseudo,mdp, dateNaissance, urlPhoto, sexe) VALUES(:nom, :prenom,:pseudo, :mdp, :dateNaissance, :urlPhoto, :sexe)');
+                $req = $this->bd->prepare('INSERT INTO Utilisateur(nom,prenom,pseudo,mdp, datenaissance, urlphoto, sexe) VALUES(:nom, :prenom,:pseudo, :mdp, :datenaissance, :urlphoto, :sexe)');
                 $req->execute(array(
                     'nom' => $data['name'],
                     'prenom' => $data['surname'],
                     'pseudo' => $data['identifiant'],
                     'mdp' => $data['mdp'],
-                    'dateNaissance' => $data['dateNaissance'],
-                    'urlPhoto' => $urlPhoto,
+                    'datenaissance' => $data['datenaissance'],
+                    'urlphoto' => $urlphoto,
                     'sexe' => $data['sexe']
                 ));
             }
@@ -446,14 +449,14 @@ class GestionBD
 
     function modifierMDP($id, $old_mdp, $new_mdp)
     {
-        $req = $this->bd->prepare("SELECT u.mdp FROM Utilisateur u WHERE u.idU = ?;");
+        $req = $this->bd->prepare("SELECT u.mdp FROM Utilisateur u WHERE u.idu = ?;");
         $req->execute(array($id));
         $old = $req->fetch()['mdp'];
         if ($old == $old_mdp) {
-            $req = $this->bd->prepare("UPDATE Utilisateur u SET u.mdp=:newMDP WHERE u.idU =:idU;");
+            $req = $this->bd->prepare("UPDATE Utilisateur u SET u.mdp=:newMDP WHERE u.idu =:idu;");
             $req->execute(array(
                 'newMDP' => $new_mdp,
-                'idU' => $id
+                'idu' => $id
             ));
             return array('erreur' => false, 'errMessage' => "Mot de passe mis à jour.");
         } else {
@@ -468,12 +471,12 @@ class GestionBD
         $target_file = $target_dir . "/" . basename($file["name"]);
         $err_photo = $this->checkPhotoValide($file, $target_file);
         if (!$err_photo['err']) {
-            $urlPhoto = $file["name"];
+            $urlphoto = $file["name"];
             move_uploaded_file($file["tmp_name"], $target_file);
-            $req = $this->bd->prepare('UPDATE Utilisateur u SET u.urlPhoto=:newURL WHERE u.idU =:idU;');
+            $req = $this->bd->prepare('UPDATE Utilisateur u SET u.urlphoto=:newURL WHERE u.idu =:idu;');
             $req->execute(array(
-                'newURL' => $urlPhoto,
-                'idU' => $id
+                'newURL' => $urlphoto,
+                'idu' => $id
             ));
         }
         return array('erreur' => $err_photo['err'], 'errMessage' => $err_photo['errMessage']);
@@ -520,19 +523,19 @@ class GestionBD
 
     function supprimerCompte($id)
     {
-        $req = $this->bd->prepare('DELETE FROM avis WHERE idU=:idU');
+        $req = $this->bd->prepare('DELETE FROM avis WHERE idu=:idu');
         $req->execute(array(
-            'idU' => $id
+            'idu' => $id
         ));
 
-        $req = $this->bd->prepare('DELETE FROM relation WHERE idU1=:idU OR idU2=:idU');
+        $req = $this->bd->prepare('DELETE FROM relation WHERE idu1=:idu OR idu2=:idu');
         $req->execute(array(
-            'idU' => $id
+            'idu' => $id
         ));
 
-        $req = $this->bd->prepare('DELETE FROM Utilisateur WHERE idU=:idU');
+        $req = $this->bd->prepare('DELETE FROM Utilisateur WHERE idu=:idu');
         $req->execute(array(
-            'idU' => $id
+            'idu' => $id
         ));
     }
 }

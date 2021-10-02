@@ -32,12 +32,12 @@ session_start();
             $bd = new GestionBD();
 
             if (isset($_POST['note'])) {
-               $bd->addAvis($_SESSION['util']->getID(), $_GET['nomB'], $_POST['note'], $_POST['com']);
+               $bd->addAvis($_SESSION['util']->getID(), $_GET['nomb'], $_POST['note'], $_POST['com']);
             }
-            $CDT = $bd->getBiere($_GET['nomB']);
+            $CDT = $bd->getBiere($_GET['nomb']);
             $CDT->afficherInfo();
 
-            if (!($bd->dejaAjouter($_GET['nomB'], $_SESSION['util']->getID()))) {
+            if (!($bd->dejaAjouter($_GET['nomb'], $_SESSION['util']->getID()))) {
                 $CDT->noter();
 			}
         }

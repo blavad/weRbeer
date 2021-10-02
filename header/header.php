@@ -25,7 +25,7 @@
                 if (item.type == "b") {
                     return $("<li>")
                         .data("item.autocomplete", item)
-                        .append("<a href='biere?nomB=" + item.value + "' style='margin-left:10px' ><img src='" + item.icon + "' width='10px', height='30px'><span style='margin-left:40px'>" + item.label + "</span></a>")
+                        .append("<a href='biere.php?nomb=" + item.value + "' style='margin-left:10px' ><img src='" + item.icon + "' width='10px', height='30px'><span style='margin-left:40px'>" + item.label + "</span></a>")
                         .appendTo(ul);
                 } else if (item.type == "u"){
                     return $("<li>")

@@ -89,7 +89,7 @@ class Biere
     public function noter()
     {
         echo
-            "<form style='margin-top:-100px' method='POST' action='biere.php?nomB=".$this->getNom()."'>
+            "<form style='margin-top:-100px' method='POST' action='biere.php?nomb=".$this->getNom()."'>
 				<fieldset class='blockNote'>
 					<input class='note' type='number' min='0' max='5' step='0.1' value='5' name='note'/></br>
 					<textarea class='comNote' name='com'></textarea></br>
@@ -127,7 +127,7 @@ class Biere
         </div>";
         echo "
         <div class='blocDescription'>
-        <a href='biere.php?nomB=" . $this->getNom() . "' id='descriptionTitle'> " . htmlspecialchars($this->getNom()) .  "</a>";
+        <a href='biere.php?nomb=" . $this->getNom() . "' id='descriptionTitle'> " . htmlspecialchars($this->getNom()) .  "</a>";
         echo "<div id='logo_alco'><img src='http://www.gifsanimes.com/data/media/331/biere-image-animee-0035.gif' border='0' alt='' />
         <h2 id='text_alco'>" . htmlspecialchars($this->getDegre()) . " % Vol</h2>
         </div>";

@@ -29,11 +29,11 @@ if (isset($_SESSION['util'])) {
 
   if (isset($_SESSION['admin'])) {
     $msg = "";
-    if (isset($_POST['nomB'])) {
+    if (isset($_POST['nomb'])) {
       $ajoutB = $bd->addBiere($_POST, $_FILES);
       $msg = messageResultatAjout("Résultat ajout : " . $ajoutB['errMessage'], $ajoutB['erreur']);
     }
-    if (isset($_POST['nomMar'])) {
+    if (isset($_POST['nommar'])) {
       $ajoutMar = $bd->addMarque($_POST);
       $msg = messageResultatAjout("Résultat ajout : " . $ajoutMar['errMessage'], $ajoutMar['erreur']);
     }

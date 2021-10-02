@@ -26,10 +26,10 @@
             <h1> Ajout de Bières </h1>
             <fieldset>
                 <hr />
-                <label for="nomB"> Nom : </label>
+                <label for="nomb"> Nom : </label>
                 <br />
                 <br />
-                <input class='option_recherche' placeholder="Nom de la bière" id="nomB" name="nomB" type="text" size="30" required />
+                <input class='option_recherche' placeholder="Nom de la bière" id="nomb" name="nomb" type="text" size="30" required />
                 <br />
                 <label for="alco"> Alcoolémie : </label>
                 <br />
@@ -42,9 +42,11 @@
                     <?php
                     $type = $bd->getType();
                     for ($i = 0; $i < sizeof($type); $i++) {
-                        echo "<option value='" . $type[$i] . "'>" . $type[$i] . "</option>";
+                        echo "<option value='".$type[$i]."'>".$type[$i]."</option>";
                     }
                     ?>
+                </select>
+		
                 </select>
                 <select class='option_recherche' name="mf">
                     <option value="">-- Mode de fabrication --</option>
@@ -66,8 +68,8 @@
                 </select>
                 <br />
                 <br />
-                <label for="photoB"> Photo Biere :</label>
-                <input type="file" name="photoB" required />
+                <label for="photob"> Photo Biere :</label>
+                <input type="file" name="photob" required />
                 <br />
                 <br />
             </fieldset>
@@ -82,29 +84,26 @@
             <h1> Ajout de Marques </h1>
             <fieldset>
                 <hr />
-                <label for="nomMar"> Nom : </label>
+                <label for="nommar"> Nom : </label>
                 <br />
                 <br />
-                <input class='option_recherche' placeholder="Nom de la marque" name="nomMar" type="text" size="30" value="" required />
+                <input class='option_recherche' placeholder="Nom de la marque" name="nommar" type="text" size="30" value="" required />
                 <br />
-                <label for="alco"> Année et Lieu de création : </label>
+                <label for="annee lieu"> Année et Lieu de création : </label>
                 <br />
                 <br />
                 <input class='option_recherche' placeholder="Année" type="number" name="annee" value="" required />
-
-                <select class='option_recherche' name="lieu">
+                <select class='option_recherche' name="lieu" >
                     <option value="">-- Lieu --</option>
                     <?php
                     $lieu = $bd->getLieux();
                     for ($i = 0; $i < sizeof($lieu); $i++) {
-                        echo "<option value='" . $lieu[$i]['idLoc'] . "'>" . $lieu[$i]['pays'] . ", " . $lieu[$i]['region'] . ", " . $lieu[$i]['ville'] . "</option>";
+                        echo "<option value='" . $lieu[$i]['idloc'] . "'>". $lieu[$i]['pays'] . ", " . $lieu[$i]['region'] . ", " . $lieu[$i]['ville'] . "</option>";
                     }
                     ?>
                 </select>
-
                 <br />
                 <br />
-
             </fieldset>
             <input class="bouton" type="submit" value="Ajouter " />
             <input class="bouton" type="reset" value="Annuler " />
@@ -118,7 +117,7 @@
             <h1> Ajout de Lieux </h1>
             <hr />
             <fieldset style="margin-left:30%;">
-                <input class='option_recherche' placeholder="Ville" name="ville" type="text" size="30" equired />
+                <input class='option_recherche' placeholder="Ville" name="ville" type="text" size="30" required />
                 <br />
                 <input class='option_recherche' placeholder="Region" name="region" type="text" size="30" required />
                 <br />
