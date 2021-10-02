@@ -1,3 +1,10 @@
-# weRbeer
+# weRbeer 
 
-Site web d'amoureux de la bière. Les utilisateurs peuvent enregistrer les bières auxquelles ils ont goûté en leur attribuant une note et un avis. En suivant d'autres personnes, ils pourront ainsi connaître l'avis de leurs amis.
+A social network for beer lovers. Users can save the beers they have tasted by giving them a rating and a review. By following other people, they will be able to know the opinion of their friends.
+
+## URL : https://werbeer.herokuapp.com
+
+
+## Advanced search tool to find beers
+
+![List of beers](https://github.com/blavad/weRbeer/blob/master/img/search_beer.png)
