@@ -5,7 +5,7 @@ A social network for beer lovers. Users can save the beers they have tasted by g
 
 ## Advanced search tool to find and compare beers 
 
-![List of beers](https://github.com/blavad/weRbeer/blob/master/img/search_beer.png)
+![List of beers](https://github.com/blavad/weRbeer/blob/master/img/beers.png)
 
 ## A user page to easily access your friends' comments and the beers you commented on
 
