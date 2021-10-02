@@ -3,11 +3,11 @@
 A social network for beer lovers. Users can save the beers they have tasted by giving them a rating and a review. By following other people, they will be able to know the opinion of their friends.
 
 
-## Advanced search tool to find and compare beers 
+## An advanced search tool to find and compare beers 
 
 ![List of beers](https://github.com/blavad/weRbeer/blob/master/img/beers.png)
 
-## A user page to easily access your friends' comments and the beers you commented on
+## An user page to easily access your friends' comments and the beers you commented on
 
 ![Profile](https://github.com/blavad/weRbeer/blob/master/img/profil.png)
 
